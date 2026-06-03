@@ -489,7 +489,7 @@
                 titulo: "Módulo 5 - Extensões",
                 imagem: "modulo5.png",
                 avatar: "avatar2.png",
-                texto: "As opções que existem dentro da aba extensões servem para adicionar recursos extras ao DogoBlock.<br><br>• <b>Gerenciar Extensões:</b> Permite instalar, ativar, desativar ou remover extensões.<br>• <b>Restaurar Extensões:</b> Restaura as extensões padrão do programa caso alguma tenha sido removida ou corrompida.<br>• <b>Limpar Cache:</b> Apaga arquivos temporários das extensões. Pode ajudar quando alguma extensão apresenta erros.<br>• <b>Smart Servo tools:</b> Ferramentas para configurar e testar servomotores inteligentes.<br>• <b>LCD:</b> Adiciona blocos para controlar telas LCD. Exemplos: LCD 16x2, Exibir textos e valores de sensores.<br>• <b>ARDUINO:</b> Adiciona os blocos de programação para Arduino.<br>• <b>Joystick (arduino Mode only):</b> Adiciona blocos para usar joysticks com Arduino.<br>• <b>Microsoft cognitive Services:</b> Permite usar serviços de inteligência artificial da Microsoft.<br>• <b>Smart servo:</b> Adiciona blocos para controlar servomotores inteligentes diretamente nos projetos.<br>• <b>Communication:</b> Adiciona blocos de comunicação avançados."
+                texto: "As opções que existem dentro da aba extensões servem para adicionar recursos extras ao DogoBlock.<br><br>• <b>Gerenciar Extensões:</b> Permite instalar, ativar, desativar ou remover extensões.<br>• <b>Restaurar Extensões:</b> Restaura as extensões padrão do programa caso alguma tenha sido removida ou corrompida.<br>• <b>Limpar Cache:</b> Apaga arquivos temporários das extensões. Pode ajudar quando alguma extensão apresenta erros.<br>• <b>Smart Servo tools:</b> Ferramentas para configurar e testar servomotores inteligentes.<br>• <b>LCD:</b> Adiciona blocos para controlar telas LCD. Exemplos: LCD 16x2, Exibir textos e valores de sensores.<br>• <b>ARDUINO:</b> Adiciona os blocos de programação para Arduino.<br>• <b>Joystick (arduino Mode only):</b> Adiciona blocos para usar joysticks com Arduino.<br>• <b>Microsoft cognitive Services:</b> Permite usar serviços de inteligência artificial da Microsoft.<br>• <b>Smart servo:</b> Adiciona blocos para controlar servomotores inteligentes diretamente nos projetos.<br>• <b>Communication:</b> Adiciona blocks de comunicação avançados."
             },
             {
                 titulo: "Módulo 6 - Idioma",
@@ -609,7 +609,7 @@
                 titulo: "Módulo 25 - Operadores",
                 imagem: "modulo25.png",
                 avatar: "avatar5.png",
-                texto: "Contém todos os blocos de cálculos matemáticos básicos e verificações lógicas avançadas.<br><br><b>Exemplos de comandos:</b> Operações aritméticas (Soma +, Subtração -, Multiplicação ×, Divisão ÷), Números aleatórios, Comparações (Menor <, Igual =, Maior >) e conectivos lógicos (E, OU, NÃO).<br><br><b>Uso prático:</b> Permite validar lógicas complexas. Exemplo: <i>Se temperatura for maior que 30 <b>E</b> mouse pressionado, mude o motor.</i>"
+                texto: "Contem todos os blocos de cálculos matemáticos básicos e verificações lógicas avançadas.<br><br><b>Exemplos de comandos:</b> Operações aritméticas (Soma +, Subtração -, Multiplicação ×, Divisão ÷), Números aleatórios, Comparações (Menor <, Igual =, Maior >) e conectivos lógicos (E, OU, NÃO).<br><br><b>Uso prático:</b> Permite validar lógicas complexas. Exemplo: <i>Se temperatura for maior que 30 <b>E</b> mouse pressionado, mude o motor.</i>"
             },
             {
                 titulo: "Módulo 26 - Robôs",
@@ -647,7 +647,7 @@
             { pergunta: "25. Em qual aba ficam os blocos para desenhar no palco?", alternativas: ["Eventos", "Sensores", "Caneta", "Operadores"], correta: 2 },
             { pergunta: "26. O que é uma variável?", alternativas: ["Uma imagem", "Um ator", "Um local para armazenar um valor", "Um cenário"], correta: 2 },
             { pergunta: "27. O que é uma lista?", alternativas: ["Um som", "Um conjunto de vários valores armazenados", "Um palco", "Um ator"], correta: 1 },
-            { pergunta: "28. Em qual aba ficam os blocos \"Quando clicar na bandeira verde\"?", alternativas: ["Controle", "Operadores", "Eventos", "Robôs"], correta: 2 },
+            { pergunta: "28. Em qual aba ficam os blocos \"Quando clicar na bandeira verde\"?", alternatives: ["Controle", "Operadores", "Eventos", "Robôs"], correta: 2 },
             { pergunta: "29. Em qual aba ficam os blocos \"Se\" e \"Repetir\"?", alternativas: ["Aparência", "Sensores", "Controle", "Som"], correta: 2 },
             { pergunta: "30. Em qual aba ficam os blocos para controlar motores, LEDs e sensores?", alternativas: ["Operadores", "Aparência", "Eventos", "Robôs"], correta: 3 }
         ];
@@ -690,7 +690,9 @@
             const telas = document.querySelectorAll(".screen");
             telas.forEach(tela => tela.classList.remove("active"));
             document.getElementById(idTelaAtivar).classList.add("active");
-            window.scrollTo(0,0);
+            
+            // Força o scroll para o topo absoluto da tela ao mudar de seção
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function irParaModulos() {
@@ -719,6 +721,9 @@
 
             // Controle dos botões de navegação
             document.getElementById("btnAnterior").disabled = (indexModuloAtual === 0);
+
+            // Rola suavemente de volta para o topo do app a cada mudança de módulo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function voltarModulo() {
@@ -763,6 +768,9 @@
                 btn.onclick = () => verificarResposta(idx, btn);
                 containerAlts.appendChild(btn);
             });
+
+            // Garante que a nova questão comece visível lá do topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function verificarResposta(indexSelecionado, botaoClicado) {
