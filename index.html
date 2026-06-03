@@ -384,16 +384,19 @@
         }
 
         .cert-footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            display: flex;
+            justify-content: center;
             margin-top: 60px;
-            align-items: flex-end;
+        }
+
+        .cert-assinatura-unica {
+            width: 250px;
+            text-align: center;
         }
 
         .cert-linha {
             border-top: 2px solid #bdc3c7;
-            width: 80%;
+            width: 100%;
             margin: 0 auto 5px auto;
         }
 
@@ -571,15 +574,10 @@
         </div>
 
         <div class="cert-footer-grid">
-            <div>
+            <div class="cert-assinatura-unica">
                 <div class="cert-linha"></div>
                 <div><b>Daniel</b></div>
                 <div class="cert-cargo">Monitor de Tecnologia</div>
-            </div>
-            <div>
-                <div class="cert-linha"></div>
-                <div><b>Silvio Giovan</b></div>
-                <div class="cert-cargo">Coordenador Geral</div>
             </div>
         </div>
 
@@ -625,7 +623,7 @@
                 titulo: "Módulo 5 - Extensões",
                 imagem: "modulo5.png",
                 avatar: "avatar2.png",
-                texto: "As opções que existem dentro da aba extensões servem para adicionar recursos extras ao DogoBlock.<br><br>• <b>Gerenciar Extensões:</b> Permite instalar, ativar, desativar ou remover extensões.<br>• <b>Restaurar Extensões:</b> Restaura as extensões padrão do programa caso alguma tenha sido removida ou corrompida.<br>• <b>Limpar Cache:</b> Apaga arquivos temporários das extensões. Pode ajudar quando alguma extensão apresenta erros.<br>• <b>Smart Servo tools:</b> Ferramentas para configurar e testar servomotores inteligentes.<br>• <b>LCD:</b> Adiciona blocos para controlar telas LCD. Exemplos: LCD 16x2, Exibir textos e valores de sensores.<br>• <b>ARDUINO:</b> Adiciona os blocos de programação para Arduino.<br>• <b>Joystick (arduino Mode only):</b> Adiciona blocos para usar joysticks com Arduino.<br>• <b>Microsoft cognitive Services:</b> Permite usar serviços de inteligência artificial da Microsoft.<br>• <b>Smart servo:</b> Adiciona blocos para controlar servomotores inteligentes diretamente nos projetos.<br>• <b>Communication:</b> Adiciona blocks de comunicação avançados."
+                texto: "As opções que existem dentro da aba extensões servem para adicionar recursos extras ao DogoBlock.<br><br>• <b>Gerenciar Extensões:</b> Permite instalar, ativar, desativar ou remover extensões.<br>• <b>Restaurar Extensões:</b> Restaura as extensões padrão do programa caso alguma tenha sido removida ou corrompida.<br>• <b>Limpar Cache:</b> Apaga arquivos temporários das extensões. Pode ajudar quando alguma extensão apresenta erros.<br>• <b>Smart Servo tools:</b> Ferramentas para configurar e testar servomotores inteligentes.<br>• <b>LCD:</b> Adiciona blocos para controlar telas LCD. Exemplos: LCD 16x2, Exibir textos e valores de sensores.<br>• <b>ARDUINO:</b> Adiciona os blocos de programação para Arduino.<br>• <b>Joystick (arduino Mode only):</b> Adiciona blocos para usar joysticks com Arduino.<br>• <b>Microsoft cognitive Services:</b> Permite usar serviços de inteligência artificial da Microsoft.<br>• <b>Smart servo:</b> Adiciona blocks para controlar servomotores inteligentes diretamente nos projetos.<br>• <b>Communication:</b> Adiciona blocks de comunicação avançados."
             },
             {
                 titulo: "Módulo 6 - Idioma",
@@ -769,11 +767,11 @@
             { pergunta: "11. Para que serve o Modo Arduino?", alternativas: ["Tocar músicas", "Criar cenários", "Programar e controlar placas Arduino", "Alterar idiomas"], correta: 2 },
             { pergunta: "12. Qual opção conecta a placa pela USB?", alternativas: ["Bluetooth", "Rede", "Porta Serial (COM)", "LCD"], correta: 2 },
             { pergunta: "13. O que faz a opção Atualizar Firmware?", alternativas: ["Troca o idioma", "Atualiza o programa interno da placa", "Salva o projeto", "Cria um ator"], correta: 1 },
-            { pergunta: "14. Qual opção shows o código gerado pelos blocos?", alternativas: ["Rede", "Smart Servo", "Ver Código", "Idioma"], correta: 2 },
+            { pergunta: "14. Qual opção mostra o código gerado pelos blocos?", alternativas: ["Rede", "Smart Servo", "Ver Código", "Idioma"], correta: 2 },
             { pergunta: "15. Para que serve o menu Placas?", alternativas: ["Trocar o cenário", "Alterar o som", "Escolher a placa que será utilizada", "Salvar projetos"], correta: 2 },
             { pergunta: "16. Qual extensão adiciona recursos para telas LCD?", alternativas: ["Communication", "LCD", "Smart Servo", "Bluetooth"], correta: 1 },
             { pergunta: "17. O que faz a extensão Communication?", alternativas: ["Edita imagens", "Cria cenários", "Adiciona recursos de comunicação", "Apaga blocos"], correta: 2 },
-            { pergunta: "18. O que é um ator?", alternativas: ["Um fundo", "Um som", "Um personagem ou objeto do projeto", "Um bloco"], correta: 2 },
+            { pergunta: "18. O que é um ator?", rectangular: ["Um fundo", "Um som", "Um personagem ou objeto do projeto", "Um bloco"], correta: 2 },
             { pergunta: "19. O que é um cenário?", alternativas: ["Um personagem", "O fundo do projeto", "Um som", "Um bloco"], correta: 1 },
             { pergunta: "20. Para que servem os trajes?", alternativas: ["Criar sons", "Criar listas", "Alterar a aparência do ator", "Trocar o idioma"], correta: 2 },
             { pergunta: "21. Qual modo é melhor para desenhos que serão usados em CNC?", alternativas: ["Bitmap", "Vetorial", "Som", "Controle"], correta: 1 },
