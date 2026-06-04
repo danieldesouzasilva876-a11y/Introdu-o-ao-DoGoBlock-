@@ -1,1047 +1,1341 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Curso DoGoBlock</title>
-    
-    <style>
-        /* DESIGN DO SITE (CSS) */
-        :root {
-            --primary-color: #4a90e2;
-            --primary-hover: #357abd;
-            --success-color: #2ecc71;
-            --danger-color: #e74c3c;
-            --background-color: #f0f4f8;
-            --card-background: #ffffff;
-            --text-color: #2c3e50;
-            --text-light: #7f8c8d;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introdução ao DoGoBlock</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--teal:#14B8A6;
+  --yellow:#FBBF24;--orange:#F97316;--purple:#8B5CF6;
+  --green:#22C55E;--red:#EF4444;--bg:#F0F9FF;
+  --text:#1E293B;--muted:#64748B;--radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+/* ── ANIMAÇÕES ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+/* ── TELAS ── */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:flex;flex-direction:column;}
+.finish-screen{display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;}
+.finish-screen.active{display:flex;}
 
-        #app {
-            background: var(--card-background);
-            width: 100%;
-            max-width: 1000px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
-            overflow: hidden;
-            position: relative;
-        }
+/* ════════════════════════════════════════
+   TELA 1 — BOAS-VINDAS
+════════════════════════════════════════ */
+#screen-welcome{
+  background:linear-gradient(140deg,#EFF6FF 0%,#E0F2FE 50%,#F0FDF4 100%);
+  position:relative;overflow:hidden;
+  align-items:center;justify-content:center;padding:24px 16px;
+}
+.bubble{position:absolute;border-radius:50%;opacity:.13;animation:floatB 7s ease-in-out infinite;pointer-events:none;}
+.b1{width:280px;height:280px;background:var(--blue);top:-100px;left:-80px;}
+.b2{width:200px;height:200px;background:var(--teal);bottom:-60px;right:20px;animation-delay:2s}
+.b3{width:110px;height:110px;background:var(--yellow);top:55%;left:8%;animation-delay:4s}
 
-        .screen {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
+.welcome-layout{
+  display:grid;grid-template-columns:1fr 300px;gap:22px;
+  max-width:900px;width:100%;position:relative;z-index:2;animation:fadeIn .6s ease;
+}
+@media(max-width:720px){.welcome-layout{grid-template-columns:1fr;}}
 
-        .screen.active {
-            display: block;
-        }
+.welcome-card{background:white;border-radius:28px;padding:38px 34px;box-shadow:0 20px 60px rgba(59,130,246,.13);}
+.panda-wrap{
+  width:88px;height:88px;background:linear-gradient(135deg,#DBEAFE,#E0F2FE);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px;
+  margin:0 auto 14px;box-shadow:0 6px 20px rgba(59,130,246,.15);animation:bounce 2.4s ease-in-out infinite;
+}
+.badge{
+  display:inline-block;background:linear-gradient(135deg,#EFF6FF,#E0F2FE);
+  color:var(--blue-dark);border:2px solid #BFDBFE;border-radius:20px;
+  padding:4px 14px;font-size:.77rem;font-weight:800;margin-bottom:12px;
+}
+.welcome-card h1{font-family:'Fredoka One',cursive;font-size:1.85rem;color:var(--blue-dark);line-height:1.2;margin-bottom:4px;text-align:center;}
+.welcome-card h1 em{color:var(--teal);font-style:normal;}
+.intro-text{
+  background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left:4px solid var(--teal);
+  border-radius:14px;padding:13px 17px;margin:14px 0;font-size:.87rem;font-weight:600;color:#1E293B;line-height:1.75;
+}
+.intro-text strong{color:var(--blue-dark);font-weight:900;}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0 12px;color:var(--muted);font-size:.79rem;font-weight:800;}
+.divider::before,.divider::after{content:'';flex:1;height:1.5px;background:#E2E8F0;}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.name-row{display:flex;gap:9px;margin-bottom:12px;}
+.name-row input{
+  flex:1;padding:12px 15px;border:2.5px solid #BFDBFE;border-radius:12px;
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;color:var(--text);
+  background:#F8FAFF;outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.name-row input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.10);}
+.name-row input::placeholder{color:#94A3B8;font-weight:600;}
+.btn-ok{
+  background:linear-gradient(135deg,var(--blue),var(--teal));color:white;border:none;
+  border-radius:12px;padding:12px 20px;font-family:'Fredoka One',cursive;
+  font-size:.97rem;cursor:pointer;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(59,130,246,.28);transition:transform .15s;
+}
+.btn-ok:hover{transform:translateY(-2px);}
+.btn-ok:disabled{opacity:.45;cursor:not-allowed;transform:none;}
 
-        h1, h2, h3 {
-            color: var(--text-color);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
+.greeting-box{
+  display:none;animation:slideIn .4s ease;
+  background:linear-gradient(135deg,#FFFBEB,#FEF3C7);
+  border:2px solid #FDE68A;border-radius:15px;margin-bottom:13px;overflow:hidden;
+}
+.greeting-box.visible{display:flex;align-items:stretch;}
+.greeting-avatar{
+  background:linear-gradient(135deg,#FDE68A,#FBBF24);
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 12px;font-size:2rem;flex-shrink:0;
+}
+.greeting-avatar img{width:56px;height:56px;object-fit:contain;border-radius:50%;display:none;}
+.greeting-avatar .av-em{display:block;}
+.greeting-content{padding:13px 15px;flex:1;}
+.greeting-content p{font-size:.86rem;font-weight:700;color:#78350F;line-height:1.65;}
+.cursor-blink{display:inline-block;width:2px;height:.9em;background:#92400E;margin-left:1px;vertical-align:text-bottom;animation:blink .7s step-end infinite;}
 
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-size: 17px;
-        }
+.btn-start{
+  background:linear-gradient(135deg,var(--blue),var(--teal));color:white;border:none;
+  border-radius:14px;padding:14px;font-family:'Fredoka One',cursive;font-size:1.15rem;
+  cursor:pointer;width:100%;box-shadow:0 8px 24px rgba(59,130,246,.28);transition:transform .2s;
+}
+.btn-start:hover{transform:translateY(-2px);}
+.btn-start:disabled{opacity:.45;cursor:not-allowed;transform:none;}
 
-        /* GRID DA INTRODUÇÃO */
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+/* Card equipe */
+.team-card{
+  background:white;border-radius:24px;padding:26px 22px;
+  box-shadow:0 16px 48px rgba(20,184,166,.12);border-top:5px solid var(--teal);align-self:start;
+}
+.team-card h3{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--teal);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+.team-member{display:flex;align-items:flex-start;gap:11px;padding:11px;border-radius:13px;background:#F0FDFA;margin-bottom:9px;}
+.team-member:last-of-type{margin-bottom:0;}
+.team-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.team-info strong{display:block;font-size:.85rem;font-weight:800;color:var(--text);}
+.team-info span{font-size:.73rem;font-weight:700;color:var(--muted);}
+.tag{display:inline-block;font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:7px;margin-top:3px;}
+.tag-geral{background:#DBEAFE;color:var(--blue-dark);}
+.tag-ofic{background:#EDE9FE;color:var(--purple);}
+.school-info{margin-top:16px;padding:11px;background:#F0F9FF;border-radius:11px;font-size:.76rem;font-weight:700;color:var(--muted);line-height:1.65;}
 
-        @media (max-width: 768px) {
-            .intro-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+/* ════════════════════════════════════════
+   TELA 2 — MÓDULOS
+════════════════════════════════════════ */
+#screen-module{background:linear-gradient(160deg,#F0F9FF 0%,#F0FDF4 100%);display:none;padding:0;}
+#screen-module.active{display:block;}
 
-        .coordenadores {
-            background: #f8f9fa;
-            border-left: 5px solid var(--primary-color);
-            padding: 20px;
-            border-radius: 8px;
-        }
+.topbar{
+  background:white;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);position:sticky;top:0;z-index:10;
+}
+.topbar-logo{font-family:'Fredoka One',cursive;font-size:1.12rem;color:var(--blue-dark);}
+.topbar-logo em{color:var(--teal);font-style:normal;}
+.topbar-student{font-weight:800;color:var(--blue);font-size:.84rem;background:#EFF6FF;padding:5px 13px;border-radius:20px;border:2px solid #BFDBFE;}
 
-        .coordenadores p {
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
+.module-body{max-width:840px;margin:0 auto;padding:24px 16px 108px;}
 
-        /* INPUTS E BOTÕES */
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+.progress-wrap{margin-bottom:20px;}
+.progress-label{display:flex;justify-content:space-between;font-size:.77rem;font-weight:800;color:var(--muted);margin-bottom:6px;}
+.progress-bar{height:10px;background:#E2E8F0;border-radius:10px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:10px;transition:width .5s ease;}
 
-        input[type="text"], input[type="password"] {
-            flex: 1;
-            padding: 14px 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
+.part-banner{border-radius:15px;padding:11px 18px;margin-bottom:16px;display:flex;align-items:center;gap:11px;font-family:'Fredoka One',cursive;font-size:.97rem;color:white;box-shadow:0 4px 16px rgba(0,0,0,.12);animation:fadeIn .4s ease;}
+.part-banner span{font-size:1.3rem;}
 
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: var(--primary-color);
-        }
+.avatar-tip{display:flex;align-items:flex-start;gap:13px;background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:2px solid #FDE68A;border-radius:15px;padding:13px 16px;margin-bottom:16px;animation:fadeIn .4s ease;}
+.avatar-tip-img{font-size:1.9rem;flex-shrink:0;margin-top:2px;}
+.avatar-tip-img img{width:50px;height:50px;object-fit:contain;border-radius:50%;display:none;}
+.avatar-tip-img .av-em{display:block;}
+.avatar-tip-text{font-size:.84rem;font-weight:700;color:#78350F;line-height:1.6;}
+.avatar-tip-text strong{color:#92400E;}
 
-        button {
-            padding: 14px 28px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-        }
+.module-card{background:white;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 32px rgba(59,130,246,.10);animation:fadeIn .4s ease;}
+.module-header{padding:17px 24px 13px;display:flex;align-items:center;gap:13px;border-bottom:2px solid #F1F5F9;}
+.module-number{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1.2rem;color:white;flex-shrink:0;}
+.module-title-wrap h2{font-family:'Fredoka One',cursive;font-size:1.22rem;color:var(--text);line-height:1.3;}
+.module-title-wrap p{font-size:.77rem;color:var(--muted);font-weight:600;margin-top:2px;}
 
-        button:hover {
-            background-color: var(--primary-hover);
-        }
+.module-image-wrap{background:#F8FAFC;padding:20px;display:flex;align-items:center;justify-content:center;min-height:210px;border-bottom:2px solid #F1F5F9;}
+.module-image-wrap img{max-width:100%;max-height:280px;border-radius:11px;box-shadow:0 4px 20px rgba(0,0,0,.08);object-fit:contain;}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#94A3B8;font-weight:700;font-size:.84rem;border:2px dashed #CBD5E1;border-radius:13px;width:100%;min-height:150px;}
+.img-placeholder span{font-size:2.1rem;}
 
-        button:active {
-            transform: scale(0.98);
-        }
+.module-info{padding:19px 24px;}
+.info-box{border-radius:13px;padding:13px 15px;margin-bottom:10px;display:flex;gap:11px;align-items:flex-start;}
+.info-box:last-child{margin-bottom:0;}
+.info-icon{font-size:1.15rem;flex-shrink:0;margin-top:2px;}
+.info-content h3{font-weight:900;font-size:.82rem;margin-bottom:3px;}
+.info-content p{font-size:.85rem;font-weight:600;line-height:1.65;color:#374151;white-space:pre-line;}
+.info-what{background:#EFF6FF;}.info-what h3{color:var(--blue-dark);}
+.info-how{background:#F0FDF4;}.info-how h3{color:#166534;}
+.info-tip{background:#FFFBEB;}.info-tip h3{color:#92400E;}
 
-        .btn-success { background-color: var(--success-color); }
-        .btn-success:hover { background-color: #27ae60; }
+/* ── Quiz ── */
+.quiz-card{background:white;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 32px rgba(139,92,246,.12);animation:fadeIn .4s ease;}
+.quiz-header{background:linear-gradient(135deg,var(--purple),#A855F7);padding:20px 24px;color:white;}
+.quiz-header h2{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:3px;}
+.quiz-header p{font-size:.82rem;font-weight:600;opacity:.88;}
+.quiz-body{padding:22px 24px;}
+.quiz-q-num{font-family:'Fredoka One',cursive;color:var(--purple);font-size:.81rem;margin-bottom:5px;}
+.quiz-question{font-size:.96rem;font-weight:800;color:var(--text);margin-bottom:15px;line-height:1.5;}
+.quiz-options{display:flex;flex-direction:column;gap:8px;}
+.quiz-option{
+  background:#F8F7FF;border:2.5px solid #E9D5FF;border-radius:11px;
+  padding:10px 14px;font-weight:700;font-size:.89rem;color:var(--text);
+  cursor:pointer;text-align:left;font-family:'Nunito',sans-serif;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.quiz-option:hover{background:#EDE9FE;border-color:var(--purple);transform:translateX(4px);}
+.quiz-option.correct{background:#F0FDF4;border-color:var(--green);color:#166534;}
+.quiz-option.wrong{background:#FFF1F2;border-color:#F87171;color:#991B1B;}
+.quiz-option.disabled{pointer-events:none;}
+.quiz-feedback{margin-top:11px;padding:10px 14px;border-radius:11px;font-weight:700;font-size:.87rem;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:#F0FDF4;color:#166534;border:2px solid #BBF7D0;}
+.quiz-feedback.err{background:#FFF1F2;color:#991B1B;border:2px solid #FECACA;}
 
-        .hidden { display: none !important; }
+/* ── Nav inferior ── */
+.module-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #E2E8F0;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;z-index:20;}
+.nav-btn{display:flex;align-items:center;gap:5px;padding:10px 18px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.89rem;cursor:pointer;border:none;transition:transform .15s;}
+.nav-btn:hover{transform:translateY(-2px);}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;}
+.btn-prev{background:#F1F5F9;color:var(--text);}
+.btn-next{background:linear-gradient(135deg,var(--blue),var(--teal));color:white;box-shadow:0 4px 14px rgba(59,130,246,.28);}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;flex:1;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#CBD5E1;border:none;cursor:pointer;padding:0;transition:background .2s,transform .2s;}
+.nav-dot.active{background:var(--blue);transform:scale(1.5);}
+.nav-dot.done{background:var(--teal);}
+.nav-dot.qdot{background:#C4B5FD;}
+.nav-dot.qdot.active{background:var(--purple);}
+.nav-dot.qdot.done{background:#7C3AED;}
 
-        /* AVATARES DO MONITOR */
-        .avatar-box {
-            text-align: center;
-            margin: 20px 0;
-        }
+/* ════════════════════════════════════════
+   TELAS FINAIS
+════════════════════════════════════════ */
+#screen-approved{background:linear-gradient(135deg,#F0FDF4,#ECFDF5);}
+#screen-failed{background:linear-gradient(135deg,#FFF1F2,#FEE2E2);}
+.finish-card{background:white;border-radius:28px;padding:42px 34px;max-width:460px;width:100%;text-align:center;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
+.finish-card-ok{box-shadow:0 20px 60px rgba(34,197,94,.18);}
+.finish-card-fail{box-shadow:0 20px 60px rgba(239,68,68,.18);}
+.finish-emoji{font-size:62px;margin-bottom:12px;animation:bounce 2s ease-in-out infinite;display:block;}
+.finish-card h2{font-family:'Fredoka One',cursive;font-size:1.8rem;margin-bottom:10px;}
+.finish-card p{color:var(--muted);font-weight:600;font-size:.9rem;line-height:1.7;margin-bottom:16px;}
+.score-box{border-radius:14px;padding:14px;margin-bottom:18px;font-weight:800;font-size:.97rem;}
+.score-ok{background:linear-gradient(135deg,#EDE9FE,#F5F3FF);color:var(--purple);}
+.score-fail{background:linear-gradient(135deg,#FFF1F2,#FEE2E2);color:#991B1B;}
+.btn-fin{width:100%;border:none;border-radius:13px;padding:13px;font-family:'Fredoka One',cursive;font-size:1.05rem;cursor:pointer;transition:transform .2s;margin-top:8px;}
+.btn-fin:hover{transform:translateY(-2px);}
+.btn-fin-cert{background:linear-gradient(135deg,#FBBF24,#F97316);color:white;box-shadow:0 6px 20px rgba(251,191,36,.35);}
+.btn-fin-ok{background:linear-gradient(135deg,var(--green),var(--teal));color:white;box-shadow:0 6px 20px rgba(34,197,94,.28);}
+.btn-fin-retry{background:linear-gradient(135deg,var(--orange),var(--red));color:white;box-shadow:0 6px 20px rgba(239,68,68,.28);}
+.btn-fin-home{background:#F1F5F9;color:var(--text);}
 
-        .avatar-img {
-            max-width: 150px;
-            height: auto;
-            border-radius: 50%;
-            background: #f0f4f8;
-            padding: 10px;
-            border: 3px solid var(--primary-color);
-        }
+/* ════════════════════════════════════════
+   TELA DO CERTIFICADO
+════════════════════════════════════════ */
+#screen-cert{
+  display:none;min-height:100vh;
+  background:linear-gradient(135deg,#1D4ED8 0%,#0D9488 100%);
+  align-items:center;justify-content:center;padding:24px;flex-direction:column;gap:18px;
+}
+#screen-cert.active{display:flex;}
 
-        #mensagemBoasVindas {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary-color);
-            min-height: 50px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #eef5fc;
-            border-radius: 8px;
-            border-left: 5px solid var(--primary-color);
-        }
+.cert-warning{
+  background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.4);border-radius:13px;
+  padding:10px 20px;color:white;font-size:.81rem;font-weight:800;text-align:center;
+  max-width:700px;width:100%;display:flex;align-items:center;gap:9px;justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.cert-warning span{font-size:1.15rem;}
 
-        /* BARRAS DE PROGRESSO */
-        .progress-container {
-            width: 100%;
-            height: 12px;
-            background-color: #e0e0e0;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
+.certificate{
+  background:white;max-width:700px;width:100%;border-radius:22px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);animation:popIn .6s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.certificate::before{
+  content:'';position:absolute;inset:8px;
+  border:2.5px solid #E2E8F0;border-radius:16px;
+  pointer-events:none;z-index:0;
+}
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
+.cert-top{
+  background:linear-gradient(135deg,#1D4ED8,#0D9488);
+  padding:26px 36px 20px;text-align:center;position:relative;
+}
+.cert-top::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;
+  background:white;clip-path:ellipse(55% 100% at 50% 100%);
+}
+.cert-school{font-family:'Fredoka One',cursive;font-size:.9rem;color:rgba(255,255,255,.82);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.cert-top h2{font-family:'Fredoka One',cursive;font-size:1.9rem;color:white;text-shadow:0 2px 8px rgba(0,0,0,.2);}
 
-        /* ÁREA DE CONTEÚDO DOS MÓDULOS */
-        .modulo-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
+.cert-body{padding:30px 44px 26px;text-align:center;position:relative;z-index:1;}
 
-        .image-container {
-            width: 100%;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            border: 2px dashed #ddd;
-        }
+.cert-seal{
+  width:74px;height:74px;margin:0 auto 16px;
+  background:linear-gradient(135deg,#FBBF24,#F97316);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:2.2rem;
+  box-shadow:0 6px 20px rgba(251,191,36,.4);animation:bounce 2.5s ease-in-out infinite;
+}
+.cert-label{font-size:.79rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.cert-student-name{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--blue-dark);margin-bottom:3px;line-height:1.2;}
+.cert-desc{font-size:.88rem;font-weight:600;color:var(--muted);line-height:1.7;margin:12px 0 18px;}
+.cert-desc strong{color:var(--text);}
+.cert-score-badge{
+  display:inline-block;background:linear-gradient(135deg,#EDE9FE,#F5F3FF);
+  border:2px solid #C4B5FD;color:var(--purple);font-weight:900;font-size:.87rem;
+  padding:7px 20px;border-radius:20px;margin-bottom:20px;
+}
+.cert-divider{height:1.5px;background:linear-gradient(90deg,transparent,#E2E8F0,transparent);margin:14px 0;}
 
-        .modulo-image {
-            max-width: 100%;
-            max-height: 350px;
-            object-fit: contain;
-            border-radius: 6px;
-        }
+/* Uma única assinatura centralizada */
+.cert-footer{display:flex;flex-direction:column;align-items:center;gap:6px;padding-bottom:6px;}
+.cert-sign-line{width:200px;height:1.5px;background:#94A3B8;margin-bottom:5px;}
+.cert-sign-name{font-size:.85rem;font-weight:900;color:var(--text);}
+.cert-sign-role{font-size:.75rem;font-weight:700;color:var(--muted);}
+.cert-date{font-size:.75rem;font-weight:700;color:var(--muted);margin-top:8px;}
 
-        .texto-conteudo {
-            font-size: 17px;
-            line-height: 1.7;
-            background: #ffffff;
-            padding: 10px 5px;
-        }
+.cert-actions{display:flex;gap:11px;max-width:700px;width:100%;flex-wrap:wrap;justify-content:center;}
+.btn-cert{
+  border:none;border-radius:13px;padding:12px 22px;font-family:'Fredoka One',cursive;font-size:.97rem;
+  cursor:pointer;transition:transform .2s;display:flex;align-items:center;gap:7px;
+}
+.btn-cert:hover{transform:translateY(-2px);}
+.btn-cert-print{background:white;color:var(--blue-dark);box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.btn-cert-back{background:rgba(255,255,255,.18);color:white;border:2px solid rgba(255,255,255,.38);backdrop-filter:blur(4px);}
 
-        .texto-conteudo b {
-            color: #1a252f;
-        }
+/* Print */
+@media print{
+  body>*:not(#screen-cert){display:none!important;}
+  #screen-cert{display:flex!important;background:white!important;padding:0!important;min-height:auto!important;}
+  .cert-warning,.cert-actions{display:none!important;}
+  .certificate{box-shadow:none!important;border-radius:0!important;max-width:100%!important;animation:none!important;}
+  .cert-top::after{background:white!important;}
+}
 
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        /* INTERFACE DO QUIZ */
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .option-button {
-            width: 100%;
-            text-align: left;
-            padding: 16px 20px;
-            background: #f8f9fa;
-            color: var(--text-color);
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .option-button:hover {
-            background: #edf2f7;
-            border-color: #cbd5e0;
-        }
-
-        .option-button.correct {
-            background-color: #d4edda !important;
-            border-color: var(--success-color) !important;
-            color: #155724 !important;
-        }
-
-        .option-button.wrong {
-            background-color: #f8d7da !important;
-            border-color: var(--danger-color) !important;
-            color: #721c24 !important;
-        }
-
-        .feedback-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            animation: pop 0.3s ease-in-out forwards;
-        }
-
-        @media (max-width: 600px) {
-            .result-buttons {
-                flex-direction: column;
-            }
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* RESULTADOS E SENHA */
-        .teacher-area, .result-area {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .result-score {
-            font-size: 24px;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        .result-bar-container {
-            width: 100%;
-            height: 30px;
-            background-color: #e0e0e0;
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 20px 0;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .result-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--success-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            transition: width 1s ease-out;
-        }
-
-        .result-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        /* ESTRUTURA DO CERTIFICADO IMPRESSO */
-        #certificadoPrintBlock {
-            display: none;
-            width: 100%;
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 40px;
-            background: #ffffff;
-            border: 15px double var(--primary-color);
-            border-radius: 4px;
-            text-align: center;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .cert-header h2 {
-            font-size: 32px;
-            color: #1a252f;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .cert-sub {
-            font-size: 16px;
-            color: var(--text-light);
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        .cert-body {
-            font-size: 20px;
-            line-height: 1.8;
-            color: var(--text-color);
-            margin-bottom: 50px;
-        }
-
-        .cert-body .aluno-destaque {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--primary-hover);
-            display: block;
-            margin: 15px 0;
-            text-decoration: underline;
-        }
-
-        .cert-footer-grid {
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-        }
-
-        .cert-assinatura-unica {
-            width: 250px;
-            text-align: center;
-        }
-
-        .cert-linha {
-            border-top: 2px solid #bdc3c7;
-            width: 100%;
-            margin: 0 auto 5px auto;
-        }
-
-        .cert-cargo {
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        .cert-aviso-legal {
-            margin-top: 60px;
-            font-size: 11px;
-            color: #95a5a6;
-            font-style: italic;
-            border-top: 1px dashed #ddd;
-            padding-top: 15px;
-        }
-
-        /* MEDIA QUERY PARA DISPARAR A IMPRESSÃO DO PDF DO CERTIFICADO */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #certificadoPrintBlock, #certificadoPrintBlock * {
-                visibility: visible;
-            }
-            #certificadoPrintBlock {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                border: 10px double #4a90e2 !important;
-                box-shadow: none;
-                padding: 30px;
-            }
-            @page {
-                size: landscape;
-                margin: 0.5cm;
-            }
-        }
-    </style>
+@media(max-width:600px){
+  .welcome-card{padding:26px 16px;}
+  .welcome-card h1{font-size:1.5rem;}
+  .module-header{padding:13px 15px 11px;}
+  .module-info{padding:15px 15px;}
+  .nav-btn{padding:9px 12px;font-size:.82rem;}
+  .finish-card{padding:30px 20px;}
+  .cert-body{padding:22px 22px 18px;}
+  .cert-student-name{font-size:1.7rem;}
+}
+</style>
 </head>
 <body>
 
-    <div id="app">
-        
-        <section id="introScreen" class="screen active">
-            <h1>Mini Curso de Introdução ao DoGoBlock</h1>
-            
-            <div class="intro-grid">
-                <div>
-                    <p>Olá, meu nome é Daniel, sou monitor de tecnologia da Escola Presidente Médici em Vila Ligação.</p>
-                    <p>Seja bem vindo a este mini curso de introdução ao DoGoBlock, serão 26 módulos de muito aprendizado + questionário.</p>
-                    
-                    <div class="input-group" id="nameForm">
-                        <input type="text" id="nomeAluno" placeholder="Digite seu nome completo">
-                        <button onclick="processarNome()">OK</button>
-                    </div>
-                </div>
-                
-                <div class="coordenadores">
-                    <h3>Coordenação</h3>
-                    <p><b>Coordenador Geral:</b> Silvio Giovan</p>
-                    <p><b>Coordenadores de oficina:</b></p>
-                    <p>Lilizne Oliveira</p>
-                    <p>Yardley Bandeira</p>
-                </div>
-            </div>
+<!-- ════════════════════════════════════════
+     TELA 1 — BOAS-VINDAS
+════════════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
 
-            <div id="mensagemBoasVindas" class="hidden"></div>
+  <div class="welcome-layout">
 
-            <div class="intro-grid">
-                <div id="avatarIntroArea" class="avatar-box hidden">
-                    <img src="avatar1.png" class="avatar-img" alt="Avatar do Monitor Daniel">
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-end;">
-                    <button id="btnIniciar" class="btn-success hidden" onclick="irParaModulos()">Iniciar Curso</button>
-                </div>
-            </div>
-        </section>
+    <!-- Card principal -->
+    <div class="welcome-card">
+      <div class="panda-wrap">🐼</div>
+      <div style="text-align:center">
+        <div class="badge">📚 26 módulos + avaliação com 30 questões</div>
+        <h1>Introdução ao <em>DoGoBlock</em></h1>
+      </div>
 
-        <section id="modulosScreen" class="screen">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 id="moduloTitulo">Módulo</h2>
-                <span id="moduloContador" style="font-weight: 600; color: var(--text-light);">1 / 26</span>
-            </div>
-            
-            <div class="progress-container">
-                <div id="moduloProgress" class="progress-bar"></div>
-            </div>
+      <div class="intro-text">
+        Olá! Meu nome é <strong>Daniel</strong>, sou <strong>Monitor de Tecnologia</strong>
+        da <strong>Escola Presidente Médici em Vila Ligação</strong>.<br><br>
+        Seja bem-vindo a este mini curso de introdução ao <strong>DoGoBlock</strong> —
+        serão <strong>26 módulos</strong> de muito aprendizado! 🚀
+      </div>
 
-            <div class="modulo-layout">
-                <div class="image-container">
-                    <img id="moduloImagem" src="" class="modulo-image" alt="Ilustração do Módulo">
-                </div>
-                <div id="moduloTexto" class="texto-conteudo"></div>
-            </div>
+      <div class="divider">✏️ Qual é o seu nome?</div>
 
-            <div class="intro-grid" style="margin-top: 20px; margin-bottom: 0;">
-                <div id="avatarModuloArea" class="avatar-box">
-                    </div>
-                <div class="navigation-buttons">
-                    <button id="btnAnterior" onclick="voltarModulo()">⬅ Anterior</button>
-                    <button id="btnProximo" onclick="avancarModulo()">Próximo ➡</button>
-                </div>
-            </div>
-        </section>
+      <div class="name-row">
+        <input type="text" id="student-name" placeholder="Digite seu nome..."
+          maxlength="40" oninput="onNameInput()"
+          onkeydown="if(event.key==='Enter') confirmName()">
+        <button class="btn-ok" id="btn-ok" onclick="confirmName()" disabled>OK</button>
+      </div>
 
-        <section id="quizScreen" class="screen">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>Questionário de Avaliação</h2>
-                <span id="quizContador" style="font-weight: 600; color: var(--text-light);">Questão 1 de 30</span>
-            </div>
+      <div class="greeting-box" id="greeting-box">
+        <div class="greeting-avatar">
+          <img src="avatar1.png" alt="Daniel"
+            onload="this.style.display='block';this.nextElementSibling.style.display='none';"
+            onerror="this.style.display='none';">
+          <span class="av-em">👨‍💻</span>
+        </div>
+        <div class="greeting-content">
+          <p><span id="typed-text"></span><span class="cursor-blink" id="typed-cursor"></span></p>
+        </div>
+      </div>
 
-            <div class="progress-container">
-                <div id="quizProgress" class="progress-bar" style="background-color: #f39c12;"></div>
-            </div>
-
-            <p id="quizPergunta" style="font-size: 19px; font-weight: 600; margin-bottom: 25px;"></p>
-
-            <div class="options-list" id="quizAlternativas"></div>
-
-            <div id="quizFeedback" class="feedback-box hidden"></div>
-        </section>
-
-        <section id="teacherScreen" class="screen">
-            <div class="teacher-area">
-                <h1>Fim do Questionário!</h1>
-                <div class="avatar-box">
-                    <img src="avatar7.png" class="avatar-img" alt="Avatar Final">
-                </div>
-                <p style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Chame o professor para saber o seu resultado final.</p>
-                
-                <div class="input-group" style="max-width: 400px; margin: 0 auto;">
-                    <input type="password" id="senhaProfessor" placeholder="Digite a senha do professor">
-                    <button class="btn-success" onclick="validarSenhaProfessor()">Verificar</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="resultScreen" class="screen">
-            <div class="result-area">
-                <h1 id="resultadoStatus">Resultado</h1>
-                
-                <div class="avatar-box">
-                    <img id="resultadoAvatar" src="" class="avatar-img" alt="Avatar de Status">
-                </div>
-
-                <div class="result-score" id="resultadoMensagem"></div>
-
-                <div class="result-bar-container">
-                    <div id="resultadoPorcentagemBarra" class="result-bar">0%</div>
-                </div>
-
-                <div class="result-buttons">
-                    <button id="btnCertificado" class="btn-success hidden" onclick="imprimirCertificado()">Gerar Certificado em PDF</button>
-                    <button onclick="reiniciarCursoTodo()">Refazer Curso Completo</button>
-                    <button class="btn-success" onclick="reiniciarApenasQuiz()">Responder Novamente o Quiz</button>
-                </div>
-            </div>
-        </section>
-
+      <button class="btn-start" id="btn-start" onclick="startModules()" disabled>
+        🚀 Iniciar o mini curso!
+      </button>
     </div>
 
-    <div id="certificadoPrintBlock">
-        <div class="cert-header">
-            <h2>Certificado de Conclusão</h2>
-            <div class="cert-sub">Oficina de Tecnologia e Robótica Educacional</div>
-        </div>
-        
-        <div class="cert-body">
-            Certificamos que o aluno(a) 
-            <span class="aluno-destaque" id="certNomeAluno">NOME DO ALUNO</span>
-            concluiu com êxito o <b>Mini Curso de Introdução ao DoGoBlock</b> oferecido pela Escola Presidente Médici em Vila Ligação, contendo carga teórica de 26 módulos estruturados e aprovação em questionário oficial de avaliação lógica.
-        </div>
+    <!-- Card equipe -->
+    <div class="team-card">
+      <h3>⭐ Equipe Tempo Integral</h3>
 
-        <div class="cert-footer-grid">
-            <div class="cert-assinatura-unica">
-                <div class="cert-linha"></div>
-                <div><b>Daniel</b></div>
-                <div class="cert-cargo">Monitor de Tecnologia</div>
-            </div>
+      <div class="team-member">
+        <div class="team-icon" style="background:#DBEAFE;">👑</div>
+        <div class="team-info">
+          <strong>Silvio Giovan</strong>
+          <span>Coordenador</span>
+          <div><span class="tag tag-geral">Coord. Geral</span></div>
         </div>
+      </div>
 
-        <div class="cert-aviso-legal">
-            Aviso: Este certificado possui caráter meramente didático de registro de oficina escolar interna e não é válido oficialmente como documento acadêmico ou profissional junto a órgãos de ensino superior ou reguladores de classe profissional.
+      <div class="team-member">
+        <div class="team-icon" style="background:#EDE9FE;">🎓</div>
+        <div class="team-info">
+          <strong>Lilizne Oliveira</strong>
+          <span>Coordenadora</span>
+          <div><span class="tag tag-ofic">Coord. Oficina</span></div>
         </div>
+      </div>
+
+      <div class="team-member">
+        <div class="team-icon" style="background:#F0FDF4;">🎓</div>
+        <div class="team-info">
+          <strong>Yardley Bandeira</strong>
+          <span>Coordenador</span>
+          <div><span class="tag tag-ofic">Coord. Oficina</span></div>
+        </div>
+      </div>
+
+      <div class="school-info">
+        📍 Escola Presidente Médici<br>Vila Ligação<br><br>
+        👨‍💻 Monitor: <strong style="color:var(--blue-dark)">Daniel</strong>
+      </div>
     </div>
 
-    <script>
-        // CONFIGURAÇÕES GERAIS E BANCO DE DADOS DO CURSO
-        let nomeAluno = "";
-        let indexModuloAtual = 0;
-        let indexQuestaoAtual = 0;
-        let totalAcertos = 0;
-        let digitando = false;
+  </div>
+</div>
 
-        const modulos = [
-            {
-                titulo: "Módulo 1 - Arquivo",
-                imagem: "modulo1.png",
-                avatar: "avatar2.png",
-                texto: "A função Arquivo se encontra na barra de menu que fica localizada no canto superior esquerdo, nele contém tudo relacionado aos arquivos.<br><br>• <b>Novo:</b> O 'novo' abre um novo arquivo.<br>• <b>Abrir projeto:</b> O 'abrir projeto' executa a função de abrir algum projeto salvo no computador.<br>• <b>Salvar projeto:</b> O 'salvar projeto' atualiza o arquivo atual, salva as alterações no mesmo arquivo e no mesmo local. Se o projeto já se chama MEU_ROBO, ele continuará com esse nome.<br>• <b>Salvar projeto Como:</b> O 'Salvar projeto como' cria uma nova cópia do projeto, permite escolher outro nome ou outra pasta, o projeto original permanece intacto.<br>• <b>Importar imagem:</b> O 'Importar imagem' você pega uma imagem que está no computador e coloca dentro do projeto. Exemplo: importar uma foto PNG ou JPG para usar como desenho de referência.<br>• <b>Exportar imagem:</b> O 'Exportar imagem' você pega uma imagem que está dentro do projeto e salva como um arquivo no computador. Exemplo: criar um desenho no DoGo Block e exportar como PNG."
-            },
-            {
-                titulo: "Módulo 2 - Editar",
-                imagem: "modulo2.png",
-                avatar: "avatar2.png",
-                texto: "A função Editar que fica localizada na barra de menu tem as funções relacionadas à edição do projeto.<br><br>• <b>Anular a Eliminação:</b> Você apagou um bloco, um sprite, um traje, um objeto, ai percebe que não queria apagar, clica em anular a eliminação e o item apagado volta.<br>• <b>Ocultar o palco:</b> Ocultar palco significa esconder a área onde o projeto é executado ou mostrado. No DoGoBlock, o palco é a região onde os personagens aparecem e as animações acontecem.<br>• <b>Disposição com palco pequeno:</b> Disposição com o palco pequeno significa que a interface do programa será organizada para deixar o palco menor e aumentar a área disponível para programação.<br>• <b>Modo turbo:</b> Faz os blocos executarem o mais rápido possível. Remove ou reduz as pausas usadas para mostrar a animação passo a passo. Útil para cálculos, testes ou programas longos. A animação pode parecer 'pular' etapas porque tudo acontece muito rápido.<br>• <b>Modo Arduino:</b> Ativa os recursos para programar placas Arduino. Aparecem blocos para controlar portas digitais, analógicas, sensores, LEDs, motores, etc. Permite enviar o programa para um Arduino compatível ou comunicar-se com ele."
-            },
-            {
-                titulo: "Módulo 3 - Conectar",
-                imagem: "modulo3.png",
-                avatar: "avatar2.png",
-                texto: "A função conectar que está localizada na barra de menu tem as funções relacionadas às conexões do DoGoBlock.<br><br>• <b>Porta Serial (COM):</b> Conecta o programa a uma porta USB serial do computador. Exemplo: Arduino Uno conectado via USB - COM3, COM4, etc.<br>• <b>Bluetooth:</b> Permite conectar a uma placa via Bluetooth sem fio.<br>• <b>2.4G Serial:</b> Conexão serial sem fio usando módulos de rádio 2,4 GHz.<br>• <b>Rede:</b> Conecta a dispositivos pela rede local (Wi-Fi ou Ethernet).<br>• <b>Atualizar Firmware:</b> Instala ou updates o firmware que permite ao DoGoBlock conversar com a placa.<br>• <b>Reiniciar programa padrão:</b> Restaura o firmware padrão da placa ou reinicia o programa que já está nela.<br>• <b>Set FirmWare Mode:</b> Coloca a placa em modo de gravação/atualização de firmware.<br>• <b>Ver código:</b> Mostra o código gerado pelos blocos. (É ótimo para aprender programação).<br>• <b>Instalar Driver do Arduino:</b> Instala os drivers necessários para o computador reconhecer a placa. Sem os drivers, a porta COM pode nem aparecer."
-            },
-            {
-                titulo: "Módulo 4 - Placas",
-                imagem: "modulo4.png",
-                avatar: "avatar2.png",
-                texto: "A opção Placas no DoGoBlock é o menu onde você escolhe qual hardware vai usar.<br><br>Por exemplo, nele podem aparecer placas como:<br>• Arduino Uno<br>• Arduino Nano<br>• Arduino Leonardo<br>• Outras placas compatíveis<br><br><b>Para que serve?</b><br>Quando você seleciona uma placa, o programa carrega os blocos compatíveis com ela, ajusta as portas e recursos disponíveis, gera o código correto para aquele hardware e permite gravar o firmware específico da placa."
-            },
-            {
-                titulo: "Módulo 5 - Extensões",
-                imagem: "modulo5.png",
-                avatar: "avatar2.png",
-                texto: "As opções que existem dentro da aba extensões servem para adicionar recursos extras ao DogoBlock.<br><br>• <b>Gerenciar Extensões:</b> Permite instalar, ativar, desativar ou remover extensões.<br>• <b>Restaurar Extensões:</b> Restaura as extensões padrão do programa caso alguma tenha sido removida ou corrompida.<br>• <b>Limpar Cache:</b> Apaga arquivos temporários das extensões. Pode ajudar quando alguma extensão apresenta erros.<br>• <b>Smart Servo tools:</b> Ferramentas para configurar e testar servomotores inteligentes.<br>• <b>LCD:</b> Adiciona blocos para controlar telas LCD. Exemplos: LCD 16x2, Exibir textos e valores de sensores.<br>• <b>ARDUINO:</b> Adiciona os blocos de programação para Arduino.<br>• <b>Joystick (arduino Mode only):</b> Adiciona blocos para usar joysticks com Arduino.<br>• <b>Microsoft cognitive Services:</b> Permite usar serviços de inteligência artificial da Microsoft.<br>• <b>Smart servo:</b> Adiciona blocks para controlar servomotores inteligentes diretamente nos projetos.<br>• <b>Communication:</b> Adiciona blocks de comunicação avançados."
-            },
-            {
-                titulo: "Módulo 6 - Idioma",
-                imagem: "modulo6.png",
-                avatar: "avatar2.png",
-                texto: "A opção Idioma serve para mudar a língua da interface do DoGoBlock.<br><br>Por exemplo, você pode encontrar opções como: 🇧🇷 Português, 🇺🇸 English, 🇪🇸 Español, 🇨🇳 中文.<br><br>Quando você altera o idioma, os menus mudam de idioma, os nomes dos blocos mudam e as mensagens e avisos aparecem na língua escolhida.<br><i>Exemplo:</i> Se mudar para Português, você verá <b>Arquivo, Editar, Conectar</b>. Se mudar para English, verá <b>File, Edit, Connect</b>."
-            },
-            {
-                titulo: "Módulo 7 - Créditos",
-                imagem: "modulo7.png",
-                avatar: "avatar2.png",
-                texto: "Esses créditos mostram de onde o DoGoBlock veio e quem participou do desenvolvimento dele:<br><br>• <b>MIT Media Lab:</b> Criou o Scratch, a plataforma de programação em blocos que inspirou muitos programas educacionais.<br>• <b>Scratch:</b> É a base conceitual da interface de blocos que você vê.<br>• <b>Maker Works Technology Co. Ltd:</b> Criou o mBlock, um programa baseado no Scratch para Arduino, robótica e eletrônica.<br>• <b>mBlock:</b> Adicionou recursos de Arduino, robótica e dispositivos físicos ao conceito do Scratch.<br>• <b>DoGo Maker:</b> Responsável pelo DoGoBlock e pela adaptação da plataforma para os produtos e projetos da DoGo Maker.<br>• <b>Instituto EducarBr:</b> Participou da parte educacional e de disseminação da ferramenta.<br><br>Na prática, o DoGoBlock é uma plataforma construída sobre ideias e tecnologias do Scratch e do mBlock, adaptada para robótica escolar."
-            },
-            {
-                titulo: "Módulo 8 - Atores (Sprites)",
-                imagem: "modulo8.png",
-                avatar: "avatar3.png",
-                texto: "A área Atores fica no canto inferior esquerdo. Na sua interface de trabalho, o ator padrão é o Panda.<br><br>O ator é qualquer objeto que pode:<br>• Se mover, falar, tocar sons, trocar de traje e interagir com outros objetos.<br><br><b>Exemplos:</b> Panda, Robô, Carro, Bola ou Personagens de jogos.<br><br><b>Botões de ator:</b> Ao lado de 'Novo ator' você tem as opções de 🖌️ Desenhar um novo ator, 📂 Importar ator do computador ou 📷 Tirar foto para criar um ator."
-            },
-            {
-                titulo: "Módulo 9 - Cenários",
-                imagem: "modulo9.png",
-                avatar: "avatar3.png",
-                texto: "Logo abaixo da área de visualização existe a seção de Palco / Cenário. O cenário é o fundo do projeto.<br><br><b>Exemplos:</b> Floresta, Cidade, Sala de aula, Espaço sideral.<br><br>Um projeto pode ter vários cenários salvos e você pode trocar entre eles de forma automática usando blocos de programação específicos durante a execução.<br><br><b>Botões do cenário:</b> 🖌️ Desenhar cenário, 📂 Importar cenário pronto ou 📷 Tirar foto da câmera para o cenário."
-            },
-            {
-                titulo: "Módulo 10 - Trajes",
-                imagem: "modulo10.png",
-                avatar: "avatar3.png",
-                texto: "A aba Traje controla visualmente a aparência física do ator escolhido. Por exemplo, o Panda padrão possui os trajes: <b>Panda-a</b> e <b>Panda-b</b>.<br><br>Esses são dois trajes com posições de pernas e braços ligeiramente diferentes. Quando programamos o sistema para alternar entre eles muito rapidamente (Traje A → Traje B → Traje A), criamos uma ilusão de animação fluida, fazendo parecer que o panda está realmente andando pelo palco!"
-            },
-            {
-                titulo: "Módulo 11 - Ferramentas de Edição",
-                imagem: "modulo11.png",
-                avatar: "avatar3.png",
-                texto: "Na aba Traje existe uma barra interna cheia de ferramentas gráficas de desenho:<br><br>• <b>Seleção:</b> Serve para marcar e mover partes do desenho.<br>• <b>Linha:</b> Cria retas perfeitas.<br>• <b>Retângulo:</b> Desenha quadrados e retângulos vazados ou cheios.<br>• <b>Elipse:</b> Desenha círculos e formas ovais.<br>• <b>Texto:</b> Permite escrever mensagens e títulos.<br>• <b>Preenchimento:</b> Pinta áreas totalmente fechadas com um balde de tinta.<br>• <b>Borracha:</b> Apaga partes específicas do desenho manual.<br>• <b>Carimbo:</b> Duplica elementos idênticos.<br><br>Dentro desta aba, você pode trabalhar em dois formatos de imagem: o <b>Modo Vetorial</b> e o <b>Modo Bitmap</b>."
-            },
-            {
-                titulo: "Módulo 12 - Modo Vetorial",
-                imagem: "modulo12.png",
-                avatar: "avatar4.png",
-                texto: "No Modo Vetorial, o desenho não é feito por pontos soltos, mas sim por equações de: <b>Linhas, Curvas e Formas matemáticas</b>.<br><br><b>Vantagens do Vetor:</b><br>✅ Pode ser ampliado ou reduzido infinitamente e nunca perde a nitidez.<br>✅ Não perde qualidade ao esticar.<br>✅ Excelente para marcas, logotipos, cortes em máquinas CNC e artes do tipo Lineart (desenhos de linha pura)."
-            },
-            {
-                titulo: "Módulo 13 - Modo Bitmap",
-                imagem: "modulo13.png",
-                avatar: "avatar4.png",
-                texto: "No Modo Bitmap, o desenho passa a ser formado inteiramente por um conjunto de blocos minúsculos chamados <b>pixels</b>. Funciona exatamente como uma fotografia digital comum.<br><br>• <b>Vantagens:</b> Muito melhor para fotografias reais, pinturas digitais artísticas e imagens com misturas complexas de cores.<br>• <b>Desvantagens:</b> Ao ampliar a imagem, ela perde definição rapidamente e fica com o aspecto serrilhado ('pixelado').<br><br>💡 Você pode usar os botões internos de conversão: 🔄 <b>Converter para Bitmap</b> (transforma vetor em pontos) ou 🔄 <b>Converter para Vetorial</b> (tenta transformar pontos em linhas limpas, funcionando melhor com desenhos simples em preto e branco)."
-            },
-            {
-                titulo: "Módulo 14 - Sons",
-                imagem: "modulo14.png",
-                avatar: "avatar4.png",
-                texto: "Na aba Sons você consegue gerenciar o áudio dos atores. Nela vemos o nome do som, os botões de controle e a <b>Forma de onda</b> (gráfico da intensidade acústica). Picos grandes significam som alto; picos pequenos indicam som baixo.<br><br>• <b>Botões Básicos:</b> ▶️ Reproduzir, ⏹️ Parar, 🔴 Gravar áudio do microfone.<br>• <b>Edição:</b> Cortar, Copiar, Colar, Desfazer, Inverter áudio.<br>• <b>Efeitos Sonoros:</b> Aumentar gradualmente (Fade-in), diminuir gradualmente (Fade-out), aplicar maior intensidade, suavizar a frequência ou criar silêncio completo em trechos."
-            },
-            {
-                titulo: "Módulo 15 - Palco",
-                imagem: "modulo15.png",
-                avatar: "avatar4.png",
-                texto: "O Palco é a grande tela branca localizada na região lateral esquerda da interface. Tudo o que programamos acontece visualmente ali dentro.<br><br>• Quando clicamos no ícone da <b>Bandeira Verde</b> 🚩: Todos os blocos começam a rodar e o programa inicia.<br>• Quando clicamos no ícone do <b>Botão Vermelho</b> 🛑: Toda a execução é interrompida imediatamente.<br>O palco é onde testamos se os nossos atores estão obedecendo aos códigos."
-            },
-            {
-                titulo: "Módulo 16 - Códigos",
-                imagem: "modulo16.png",
-                avatar: "avatar5.png",
-                texto: "A área central de Códigos é o verdadeiro coração do DoGoBlock! É nesse espaço que arrastamos e encaixamos as peças para dar vida aos projetos.<br><br>Ferramentas de suporte essenciais da área:<br>• 📋 <b>Duplicar:</b> Copia instantaneamente um bloco ou um bloco gigante de comandos, economizando tempo.<br>• 🗑️ <b>Apagar:</b> Deleta os blocos indesejados da tela.<br>• 🔍 <b>Aumentar / Reduzir:</b> Altera o tamanho visual das peças na tela, facilitando a leitura de laços compridos e ajudando em apresentações."
-            },
-            {
-                titulo: "Módulo 17 - Movimentos",
-                imagem: "modulo17.png",
-                avatar: "avatar5.png",
-                texto: "Os blocos da categoria Movimento são inteiramente responsáveis por deslocar os atores fisicamente pela tela.<br><br><b>Exemplos de comandos:</b> Mover 10 passos, Girar 15 graus, Ir para posição X:Y específica, Deslizar até uma coordenada aleatória ou apontar para uma direção.<br><br><b>Uso prático:</b> Essencial para criar a movimentação de heróis em jogos, carros em pistas ou fazer objetos caírem."
-            },
-            {
-                titulo: "Módulo 18 - Aparência",
-                imagem: "modulo18.png",
-                avatar: "avatar5.png",
-                texto: "Os blocos de Aparência controlam toda a parte estética e de texto exibida na tela.<br><br><b>Exemplos de comandos:</b> Dizer 'Olá!' por 2 segundos, exibir balão de Pensar, Mudar para o Traje seguinte, Alterar o Cenário de fundo, Mostrar ou Esconder o ator e Modificar o tamanho percentual do objeto.<br><br><b>Uso prático:</b> Perfeito para criar diálogos de histórias, fazer inimigos sumirem ao serem atingidos ou criar efeitos visuais."
-            },
-            {
-                titulo: "Módulo 19 - Som",
-                imagem: "modulo19.png",
-                avatar: "avatar5.png",
-                texto: "A categoria Som serve para gerenciar e disparar todos os arquivos sonoros configurados no sistema.<br><br><b>Exemplos de comandos:</b> Tocar o som até o fim, Parar todos os sons imediatos, Mudar o efeito de altura e Alterar o volume geral do projeto.<br><br><b>Uso prático:</b> Usado para colocar trilhas sonoras de fundo nos games, efeitos de explosões ou bipes de alertas."
-            },
-            {
-                titulo: "Módulo 20 - Caneta",
-                imagem: "modulo20.png",
-                avatar: "avatar5.png",
-                texto: "A aba Caneta permite que o ator funcione como um lápis real, desenhando traços diretamente no palco conforme ele se move pela tela. É uma simulação exata de equipamentos industriais de automação.<br><br><b>Exemplos de comandos:</b> Baixar caneta (começa a riscar), Levantar caneta (para de riscar), Limpar desenhos anteriores, Mudar cor e Alterar espessura da linha.<br><br><b>Uso prático:</b> Fundamental para entender lógica de funcionamento de máquinas <b>CNC e Plotters</b> de desenho técnico."
-            },
-            {
-                titulo: "Módulo 21 - Dados & Blocos",
-                imagem: "modulo21.png",
-                avatar: "avatar5.png",
-                texto: "Esta seção gerencia a memória de dados do sistema através de elementos lógicos:<br><br>• 📦 <b>Criar uma Variável:</b> Funciona como uma caixa que guarda uma informação que muda (Ex: Pontos = 0. Ao pegar uma moeda, Variável = Variável + 1). Usado para placares e sensores.<br>• 📋 <b>Criar uma Lista:</b> Guarda um conjunto ordenado de informações sob um único nome (Ex: Lista de Compras, Histórico de sensores).<br>• 🧩 <b>Criar um Bloco:</b> Permite agrupar blocos repetitivos em uma função personalizada nova (Ex: criar o bloco 'Desenhar Quadrado' para usar quando quiser), otimizando códigos grandes."
-            },
-            {
-                titulo: "Módulo 22 - Eventos",
-                imagem: "modulo22.png",
-                avatar: "avatar5.png",
-                texto: "Os blocos de Eventos funcionam como os 'gatilhos' do programa. Eles determinam exatamente <b>quando</b> uma ação deve disparar.<br><br><b>Exemplos de comandos:</b> Quando clicar na bandeira verde, Quando a tecla Espaço for pressionada, Quando este ator for clicado e Quando eu receber uma Mensagem de transmissão oculta.<br><br><b>Uso prático:</b> Serve para dar o pontapé inicial em todas as lógicas e interações do usuário."
-            },
-            {
-                titulo: "Módulo 23 - Controle",
-                imagem: "modulo23.png",
-                avatar: "avatar5.png",
-                texto: "A categoria Controle molda a estrutura lógica e o fluxo de decisão do código, ditando caminhos.<br><br><b>Exemplos de comandos:</b> Esperar 1 segundo, Repetir 10 vezes, laço Para Sempre, Condicional <b>Se... Então</b>, Condicional Composta <b>Se... Senão</b> e comando Parar tudo.<br><br><b>Uso prático:</b> Cria a inteligência do sistema. Ex: <b>Se</b> encostar no espinho <b>Então</b> perde o jogo, <b>Senão</b> continua correndo."
-            },
-            {
-                titulo: "Módulo 24 - Sensores",
-                imagem: "modulo24.png",
-                avatar: "avatar5.png",
-                texto: "Os Sensores permitem ao programa ler dados do ambiente (seja interno do jogo ou externo via hardware).<br><br><b>Exemplos de comandos:</b> Tocando em [ponteiro do mouse]?, Tocando na cor verde?, Distância até o Panda, Tecla pressionada? e valor do Cronômetro.<br><br><b>Uso prático:</b> Cria detecção de colisões em jogos e, no Modo Arduino, lê a entrada de botões, sensores ultrassônicos e de luz."
-            },
-            {
-                titulo: "Módulo 25 - Operadores",
-                imagem: "modulo25.png",
-                avatar: "avatar5.png",
-                texto: "Contem todos os blocos de cálculos matemáticos básicos e verificações lógicas avançadas.<br><br><b>Exemplos de comandos:</b> Operações aritméticas (Soma +, Subtração -, Multiplicação ×, Divisão ÷), Números aleatórios, Comparações (Menor <, Igual =, Maior >) e conectivos lógicos (E, OU, NÃO).<br><br><b>Uso prático:</b> Permite validar lógicas complexas. Exemplo: <i>Se temperatura for maior que 30 <b>E</b> mouse pressionado, mude o motor.</i>"
-            },
-            {
-                titulo: "Módulo 26 - Robôs",
-                imagem: "modulo26.png",
-                avatar: "avatar6.png",
-                texto: "A aba Robôs é o grande diferencial do DoGoBlock para o Scratch tradicional. Ela abre os blocos de comunicação direta com o hardware externo físico!<br><br>Dependendo da placa que você ativou no menu Placas, aqui vão surgir comandos para ligar e ler componentes eletrônicos como:<br>• LEDs, Servomotores, Motores DC de tração, Sensores de presença, Buzzer musical, Displays LCD, módulos sem fio Bluetooth e Wi-Fi.<br><br><b>Uso prático:</b> Automação de robôs seguidores de linha, braços mecânicos, termômetros inteligentes e impressoras CNC!"
-            }
-        ];
+<!-- ════════════════════════════════════════
+     TELA 2 — MÓDULOS + AVALIAÇÃO
+════════════════════════════════════════ -->
+<div id="screen-module" class="screen">
+  <div class="topbar">
+    <div class="topbar-logo">🐼 <em>DoGo</em>Block</div>
+    <div class="topbar-student" id="topbar-name">Aluno</div>
+  </div>
+  <div class="module-body">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-text">Módulo 1 de 26</span>
+        <span id="progress-pct">2%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:2%"></div>
+      </div>
+    </div>
+    <div id="module-content"></div>
+  </div>
+  <div class="module-nav">
+    <button class="nav-btn btn-prev" id="btn-prev" onclick="navigate(-1)">← Anterior</button>
+    <div class="nav-dots" id="nav-dots"></div>
+    <button class="nav-btn btn-next" id="btn-next" onclick="navigate(1)">Próximo →</button>
+  </div>
+</div>
 
-        const questoes = [
-            { pergunta: "1. Como é chamada a área onde ficam as opções Arquivo, Editar e Conectar?", alternativas: ["Barra de ferramentas", "Barra de menus", "Palco", "Área de atores"], correta: 1 },
-            { pergunta: "2. Qual opção permite salvar as alterações no arquivo atual?", alternativas: ["Salvar Projeto", "Exportar Projeto", "Salvar Projeto Como", "Importar Projeto"], correta: 0 },
-            { pergunta: "3. Qual opção permite criar uma cópia do projeto com outro nome?", alternativas: ["Salvar Projeto", "Salvar Projeto Como", "Exportar", "Reverter"], correta: 1 },
-            { pergunta: "4. O que significa importar uma imagem?", alternativas: ["Salvar uma imagem", "Apagar uma imagem", "Trazer uma imagem para dentro do projeto", "Compartilhar uma imagem"], correta: 2 },
-            { pergunta: "5. O que significa exportar uma imagem?", alternativas: ["Abrir uma imagem", "Salvar uma imagem do projeto em um arquivo", "Apagar uma imagem", "Copiar uma imagem"], correta: 1 },
-            { pergunta: "6. Para que serve a opção Reverter?", alternativas: ["Copiar um bloco", "Trocar o idioma", "Voltar para a última versão salva", "Apagar um ator"], correta: 2 },
-            { pergunta: "7. O que faz a opção Anular a eliminação?", alternativas: ["Salva o projeto", "Recupera algo apagado", "Fecha o programa", "Limpa o palco"], correta: 1 },
-            { pergunta: "8. O que é o palco?", alternativas: ["Área de códigos", "Área de sons", "Local onde o projeto é exibido", "Lista de atores"], correta: 2 },
-            { pergunta: "9. O que acontece ao ocultar o palco?", alternativas: ["O projeto é apagado", "O ator desaparece", "O palco é escondido para aumentar a área de programação", "O programa fecha"], correta: 2 },
-            { pergunta: "10. Para que serve o Modo Turbo?", alternativas: ["Programar Arduino", "Executar os blocos mais rapidamente", "Desenhar imagens", "Tocar sons"], correta: 1 },
-            { pergunta: "11. Para que serve o Modo Arduino?", alternativas: ["Tocar músicas", "Criar cenários", "Programar e controlar placas Arduino", "Alterar idiomas"], correta: 2 },
-            { pergunta: "12. Qual opção conecta a placa pela USB?", alternativas: ["Bluetooth", "Rede", "Porta Serial (COM)", "LCD"], correta: 2 },
-            { pergunta: "13. O que faz a opção Atualizar Firmware?", alternativas: ["Troca o idioma", "Atualiza o programa interno da placa", "Salva o projeto", "Cria um ator"], correta: 1 },
-            { pergunta: "14. Qual opção mostra o código gerado pelos blocos?", alternativas: ["Rede", "Smart Servo", "Ver Código", "Idioma"], correta: 2 },
-            { pergunta: "15. Para que serve o menu Placas?", alternativas: ["Trocar o cenário", "Alterar o som", "Escolher a placa que será utilizada", "Salvar projetos"], correta: 2 },
-            { pergunta: "16. Qual extensão adiciona recursos para telas LCD?", alternativas: ["Communication", "LCD", "Smart Servo", "Bluetooth"], correta: 1 },
-            { pergunta: "17. O que faz a extensão Communication?", alternativas: ["Edita imagens", "Cria cenários", "Adiciona recursos de comunicação", "Apaga blocos"], correta: 2 },
-            { pergunta: "18. O que é um ator?", rectangular: ["Um fundo", "Um som", "Um personagem ou objeto do projeto", "Um bloco"], correta: 2 },
-            { pergunta: "19. O que é um cenário?", alternativas: ["Um personagem", "O fundo do projeto", "Um som", "Um bloco"], correta: 1 },
-            { pergunta: "20. Para que servem os trajes?", alternativas: ["Criar sons", "Criar listas", "Alterar a aparência do ator", "Trocar o idioma"], correta: 2 },
-            { pergunta: "21. Qual modo é melhor para desenhos que serão usados em CNC?", alternativas: ["Bitmap", "Vetorial", "Som", "Controle"], correta: 1 },
-            { pergunta: "22. Qual modo é formado por pixels?", alternativas: ["Bitmap", "Vetorial", "Turbo", "Arduino"], correta: 0 },
-            { pergunta: "23. Qual aba contém os blocos para movimentar os atores?", alternativas: ["Movimentos", "Sensores", "Operadores", "Eventos"], correta: 0 },
-            { pergunta: "24. Em qual aba ficam os blocos para tocar sons?", alternativas: ["Aparência", "Som", "Controle", "Robôs"], correta: 1 },
-            { pergunta: "25. Em qual aba ficam os blocos para desenhar no palco?", alternativas: ["Eventos", "Sensores", "Caneta", "Operadores"], correta: 2 },
-            { pergunta: "26. O que é uma variável?", alternativas: ["Uma imagem", "Um ator", "Um local para armazenar um valor", "Um cenário"], correta: 2 },
-            { pergunta: "27. O que é uma lista?", alternativas: ["Um som", "Um conjunto de vários valores armazenados", "Um palco", "Um ator"], correta: 1 },
-            { pergunta: "28. Em qual aba ficam os blocos \"Quando clicar na bandeira verde\"?", alternativas: ["Controle", "Operadores", "Eventos", "Robôs"], correta: 2 },
-            { pergunta: "29. Em qual aba ficam os blocos \"Se\" e \"Repetir\"?", alternativas: ["Aparência", "Sensores", "Controle", "Som"], correta: 2 },
-            { pergunta: "30. Em qual aba ficam os blocos para controlar motores, LEDs e sensores?", alternativas: ["Operadores", "Aparência", "Eventos", "Robôs"], correta: 3 }
-        ];
+<!-- ════════════════════════════════════════
+     TELA 3A — APROVADO
+════════════════════════════════════════ -->
+<div id="screen-approved" class="finish-screen">
+  <div class="finish-card finish-card-ok">
+    <span class="finish-emoji">🎉</span>
+    <h2 style="color:#166534">Parabéns, <span id="approved-name"></span>!</h2>
+    <p>Você concluiu o mini curso de <strong>Introdução ao DoGoBlock</strong> com sucesso!
+    Agora você já conhece o aplicativo e está pronto para programar com blocos! 🐼✨</p>
+    <div class="score-box score-ok" id="approved-score"></div>
+    <button class="btn-fin btn-fin-cert" onclick="showCertificate()">🏅 Ver meu Certificado</button>
+    <button class="btn-fin btn-fin-ok" onclick="restart()">🔄 Recomeçar do início</button>
+  </div>
+</div>
 
-        // LÓGICA DO SISTEMA DA INTRODUÇÃO
-        function processarNome() {
-            const inputNome = document.getElementById("nomeAluno");
-            nomeAluno = inputNome.value.trim();
+<!-- ════════════════════════════════════════
+     TELA 3B — REPROVADO
+════════════════════════════════════════ -->
+<div id="screen-failed" class="finish-screen">
+  <div class="finish-card finish-card-fail">
+    <span class="finish-emoji">😅</span>
+    <h2 style="color:#991B1B">Quase lá, <span id="failed-name"></span>!</h2>
+    <p>Você precisa de no mínimo <strong>16 acertos</strong> para concluir.
+    Revise os módulos com calma e tente de novo — você consegue! 💪</p>
+    <div class="score-box score-fail" id="failed-score"></div>
+    <button class="btn-fin btn-fin-retry" onclick="retryQuiz()">🔁 Tentar a avaliação novamente</button>
+    <button class="btn-fin btn-fin-home" onclick="restart()">🏠 Voltar ao início</button>
+  </div>
+</div>
 
-            if (nomeAluno === "") {
-                alert("Por favor, digite seu nome para iniciar!");
-                return;
-            }
+<!-- ════════════════════════════════════════
+     TELA 4 — CERTIFICADO
+════════════════════════════════════════ -->
+<div id="screen-cert">
 
-            // Atualiza o nome que vai aparecer no Certificado Impresso
-            document.getElementById("certNomeAluno").innerText = nomeAluno;
+  <div class="cert-warning">
+    <span>⚠️</span>
+    <span>Atenção: Esse certificado não é oficial, tem apenas o intuito de destacar os melhores alunos.</span>
+  </div>
 
-            document.getElementById("nameForm").classList.add("hidden");
-            const msgBox = document.getElementById("mensagemBoasVindas");
-            msgBox.classList.remove("hidden");
-            document.getElementById("avatarIntroArea").classList.remove("hidden");
+  <div class="certificate">
+    <div class="cert-top">
+      <div class="cert-school">Escola Presidente Médici — Vila Ligação</div>
+      <h2>Certificado de Conclusão</h2>
+    </div>
 
-            const textoMensagem = `Olá, ${nomeAluno}! Estou muito feliz de te ver por aqui, aproveite ao máximo esse curso! Clique em iniciar para começar. Opa, quase me esqueço, Qualquer dúvida, chame um professor, tenha uma ótima aula.`;
-            
-            efeitoDigitacao(msgBox, textoMensagem, 0, function() {
-                document.getElementById("btnIniciar").classList.remove("hidden");
-            });
-        }
+    <div class="cert-body">
+      <div class="cert-seal">🏅</div>
 
-        function efeitoDigitacao(elemento, texto, index, callback) {
-            if (index < texto.length) {
-                elemento.innerHTML += texto.charAt(index);
-                setTimeout(function() {
-                    efeitoDigitacao(elemento, texto, index + 1, callback);
-                }, 25);
-            } else {
-                if (callback) callback();
-            }
-        }
+      <div class="cert-label">Certificamos que</div>
+      <div class="cert-student-name" id="cert-student-name">Aluno</div>
 
-        // ALTERNÂNCIA DE TELAS
-        function alternarTelas(idTelaAtivar) {
-            const telas = document.querySelectorAll(".screen");
-            telas.forEach(tela => tela.classList.remove("active"));
-            document.getElementById(idTelaAtivar).classList.add("active");
-            
-            // Força o scroll para o topo absoluto da tela ao mudar de seção
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      <div class="cert-desc">
+        concluiu com êxito o mini curso de
+        <strong>Introdução ao DoGoBlock</strong>, composto por
+        <strong>26 módulos</strong> de aprendizado sobre programação em blocos,
+        robótica e eletrônica com Arduino, promovido pelo
+        Programa de Tempo Integral da escola.
+      </div>
 
-        function irParaModulos() {
-            alternarTelas("modulosScreen");
-            renderizarModulo();
-        }
+      <div class="cert-score-badge" id="cert-score-badge">🏆 Pontuação: — / 30</div>
 
-        // NAVEGAÇÃO DOS MÓDULOS
-        function renderizarModulo() {
-            const dadosModulo = modulos[indexModuloAtual];
-            
-            document.getElementById("moduloTitulo").innerText = dadosModulo.titulo;
-            document.getElementById("moduloImagem").src = dadosModulo.imagem;
-            document.getElementById("moduloTexto").innerHTML = dadosModulo.texto;
-            document.getElementById("moduloContador").innerText = `${indexModuloAtual + 1} / 26`;
-            
-            // Atualizar barra de progresso do módulo
-            const pct = ((indexModuloAtual + 1) / modulos.length) * 100;
-            document.getElementById("moduloProgress").style.width = pct + "%";
+      <div class="cert-divider"></div>
 
-            // Troca de avatar interativa baseada no módulo
-            document.getElementById("avatarModuloArea").innerHTML = `
-                <img src="${dadosModulo.avatar}" class="avatar-img" alt="Avatar Interativo">
-                <p style="font-size:13px; color:var(--text-light); margin-top:5px;">Monitor Daniel</p>
-            `;
+      <div class="cert-footer">
+        <div class="cert-sign-line"></div>
+        <div class="cert-sign-name">Daniel</div>
+        <div class="cert-sign-role">Assinatura do Professor</div>
+        <div class="cert-date" id="cert-date">📅 —</div>
+      </div>
+    </div>
+  </div>
 
-            // Controle dos botões de navegação
-            document.getElementById("btnAnterior").disabled = (indexModuloAtual === 0);
+  <div class="cert-actions">
+    <button class="btn-cert btn-cert-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn-cert btn-cert-back" onclick="showEl('screen-approved')">← Voltar</button>
+  </div>
 
-            // Rola suavemente de volta para o topo do app a cada mudança de módulo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+</div>
 
-        function voltarModulo() {
-            if (indexModuloAtual > 0) {
-                indexModuloAtual--;
-                renderizarModulo();
-            }
-        }
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
 
-        function avancarModulo() {
-            if (indexModuloAtual < modulos.length - 1) {
-                indexModuloAtual++;
-                renderizarModulo();
-            } else {
-                // Fim dos módulos, vai para o quiz
-                alternarTelas("quizScreen");
-                renderizarQuestao();
-            }
-        }
+// ════════════════════════════════════════
+//  BANNERS DE PARTE
+// ════════════════════════════════════════
+const PARTS = {
+  1:  { label:"Parte 1 — Barra de Menus",   color:"linear-gradient(135deg,#3B82F6,#1D4ED8)", icon:"🗂️" },
+  8:  { label:"Parte 2 — Interface Visual",  color:"linear-gradient(135deg,#8B5CF6,#6D28D9)", icon:"🎨" },
+  16: { label:"Parte 3 — Área de Códigos",   color:"linear-gradient(135deg,#14B8A6,#0D9488)", icon:"💻" },
+};
 
-        // SISTEMA DO QUESTIONÁRIO (QUIZ)
-        function renderizarQuestao() {
-            const dadosQuestao = questoes[indexQuestaoAtual];
-            
-            document.getElementById("quizContador").innerText = `Questão ${indexQuestaoAtual + 1} de 30`;
-            document.getElementById("quizPergunta").innerText = dadosQuestao.pergunta;
-            
-            // Barra de progresso do quiz
-            const pctQuiz = ((indexQuestaoAtual + 1) / questoes.length) * 100;
-            document.getElementById("quizProgress").style.width = pctQuiz + "%";
+// ════════════════════════════════════════
+//  DICAS DO AVATAR
+//  Coloque avatar1.png, avatar2.png na mesma pasta
+// ════════════════════════════════════════
+const AVATAR_TIPS = {
+  1:  { img:"avatar1.png", text:"👋 <strong>Olá! Sou Daniel.</strong> Vamos começar conhecendo o Menu Arquivo — onde você salva e abre seus projetos. Preste atenção!" },
+  4:  { img:"avatar2.png", text:"💡 <strong>Dica importante:</strong> Escolher a placa certa é fundamental! Sem isso, o DoGoBlock não consegue programar o hardware." },
+  8:  { img:"avatar1.png", text:"🎨 <strong>Iniciando a Parte 2!</strong> Agora vamos explorar a interface visual — Atores, Cenários, Trajes e muito mais!" },
+  12: { img:"avatar2.png", text:"🔷 <strong>Vetorial ou Bitmap?</strong> Use vetorial para CNC e plotter, bitmap para fotos. Cada um tem sua hora certa!" },
+  16: { img:"avatar1.png", text:"💻 <strong>Chegamos nos Códigos!</strong> Esta é a parte mais importante do DoGoBlock. É aqui que a mágica acontece!" },
+  20: { img:"avatar2.png", text:"✍️ <strong>Módulo Caneta!</strong> Super importante para quem quer usar o DoGoBlock com plotters e CNC. Atenção redobrada!" },
+  26: { img:"avatar1.png", text:"🤖 <strong>Último módulo!</strong> Robôs é o que diferencia o DoGoBlock do Scratch. Aqui controlamos hardware de verdade!" },
+};
 
-            const containerAlts = document.getElementById("quizAlternativas");
-            containerAlts.innerHTML = "";
+// ════════════════════════════════════════
+//  26 MÓDULOS
+//  Imagens: modulo1.png, modulo2.png ... modulo26.png
+// ════════════════════════════════════════
+const MODULES = [
 
-            const feedback = document.getElementById("quizFeedback");
-            feedback.classList.add("hidden");
+// ── PARTE 1: BARRA DE MENUS ──────────────────────────
+{
+  title:"Arquivo", subtitle:"Salvando e abrindo projetos", color:"#3B82F6", image:"modulo1.png",
+  what:"A função Arquivo se encontra na barra de menu no canto superior esquerdo. Nela estão todas as funções relacionadas aos arquivos do projeto.",
+  how:`• Novo: abre um novo arquivo em branco.
+• Abrir Projeto: abre um projeto salvo no computador.
+• Salvar Projeto (Ctrl+S): salva as alterações no arquivo atual, no mesmo local e nome.
+• Salvar Projeto Como: cria uma cópia com outro nome ou pasta — o original fica intacto.
+• Importar Imagem: traz uma imagem do computador (PNG, JPG) para dentro do projeto.
+• Exportar Imagem: salva uma imagem do projeto como arquivo no computador.`,
+  tip:"Use Ctrl+S com frequência! Um projeto não salvo pode ser perdido para sempre se o computador desligar ou travar."
+},
+{
+  title:"Editar", subtitle:"Funções de edição do projeto", color:"#14B8A6", image:"modulo2.png",
+  what:"A função Editar na barra de menu contém funções relacionadas à edição e configuração do projeto.",
+  how:`• Anular a Eliminação: recupera algo apagado (bloco, sprite, traje).
+• Ocultar o Palco: esconde a área de execução para aumentar o espaço de programação.
+• Disposição com Palco Pequeno: deixa o palco menor e a área de código maior.
+• Modo Turbo: executa os blocos o mais rápido possível, sem pausas visuais. Ótimo para cálculos.
+• Modo Arduino: ativa recursos para programar placas Arduino — blocos para portas, sensores, LEDs e motores.`,
+  tip:"O Modo Turbo é ótimo para testar loops longos! Um laço de 1000 repetições termina quase instantaneamente."
+},
+{
+  title:"Conectar", subtitle:"Conexões do DoGoBlock", color:"#8B5CF6", image:"modulo3.png",
+  what:"A função Conectar na barra de menu contém todas as opções para conectar o DoGoBlock a placas e dispositivos externos.",
+  how:`• Porta Serial (COM): conecta via USB. Ex: Arduino Uno na COM3 ou COM4.
+• Bluetooth: conecta sem fio via Bluetooth.
+• 2.4G Serial: conexão sem fio por rádio 2,4 GHz.
+• Rede: conecta a dispositivos via Wi-Fi ou Ethernet.
+• Atualizar Firmware: instala ou atualiza o firmware da placa.
+• Reiniciar Programa Padrão: restaura o firmware ou reinicia o programa da placa.
+• Set Firmware Mode: coloca a placa em modo de gravação.
+• Ver Código: mostra o código gerado pelos blocos (ótimo para aprender programação!).
+• Instalar Driver do Arduino: instala os drivers para o computador reconhecer a placa.`,
+  tip:"Sem os drivers instalados, a porta COM nem aparece! Sempre instale o driver antes de conectar o Arduino."
+},
+{
+  title:"Placas", subtitle:"Escolhendo o hardware", color:"#EC4899", image:"modulo4.png",
+  what:"A opção Placas é o menu onde você escolhe qual hardware (placa eletrônica) vai usar no seu projeto.",
+  how:`Exemplos de placas disponíveis:
+• Arduino Uno
+• Arduino Nano
+• Arduino Leonardo
+• Outras placas compatíveis
 
-            dadosQuestao.alternativas.forEach((opcao, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-button";
-                btn.innerText = opcao;
-                btn.onclick = () => verificarResposta(idx, btn);
-                containerAlts.appendChild(btn);
-            });
+Quando você seleciona uma placa:
+• O programa carrega os blocos compatíveis com ela.
+• Ajusta as portas e recursos disponíveis.
+• Gera o código correto para aquele hardware.
+• Permite gravar o firmware específico da placa.`,
+  tip:"Escolher a placa errada pode fazer o programa não funcionar no hardware. Sempre confirme qual placa está utilizando!"
+},
+{
+  title:"Extensões", subtitle:"Recursos extras do DoGoBlock", color:"#F97316", image:"modulo5.png",
+  what:"As opções dentro da aba Extensões servem para adicionar recursos extras ao DoGoBlock.",
+  how:`• Gerenciar Extensões: instala, ativa, desativa ou remove extensões.
+• Restaurar Extensões: restaura as extensões padrão caso alguma tenha sido removida.
+• Limpar Cache: apaga arquivos temporários. Ajuda quando há erros nas extensões.
+• Smart Servo Tools: ferramentas para servomotores inteligentes.
+• LCD: adiciona blocos para controlar telas LCD (16x2, etc).
+• Arduino: adiciona os blocos de programação para Arduino.
+• Joystick (Arduino Mode only): blocos para usar joysticks com Arduino.
+• Microsoft Cognitive Services: serviços de IA da Microsoft integrados ao projeto.
+• Smart Servo: controla servomotores inteligentes diretamente.
+• Communication: adiciona blocos de comunicação.`,
+  tip:"Ative apenas as extensões que vai usar. Muitas extensões ativas ao mesmo tempo podem deixar o programa mais lento."
+},
+{
+  title:"Idioma", subtitle:"Mudando o idioma da interface", color:"#FBBF24", image:"modulo6.png",
+  what:"A opção Idioma serve para mudar a língua da interface do DoGoBlock — menus, blocos e mensagens.",
+  how:`Exemplos de idiomas disponíveis:
+🇧🇷 Português  |  🇺🇸 English  |  🇪🇸 Español  |  🇨🇳 中文
 
-            // Garante que a nova questão comece visível lá do topo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+Ao alterar o idioma:
+• Os menus mudam de idioma.
+• Os nomes dos blocos mudam.
+• Mensagens e avisos aparecem na língua escolhida.
 
-        function verificarResposta(indexSelecionado, botaoClicado) {
-            if (digitando) return; // Evita cliques duplos rápidos
-            digitando = true;
+Exemplos de tradução:
+• Português → Inglês: Arquivo → File, Editar → Edit, Conectar → Connect
+• Inglês → Português: File → Arquivo, Edit → Editar, Connect → Conectar`,
+  tip:"Experimente mudar para o Inglês! Aprender os nomes em inglês ajuda muito quem quer programar profissionalmente no futuro."
+},
+{
+  title:"Créditos", subtitle:"De onde veio o DoGoBlock", color:"#22C55E", image:"modulo7.png",
+  what:"Os créditos mostram de onde o DoGoBlock veio e quem participou do seu desenvolvimento.",
+  how:`• MIT Media Lab → Criou o Scratch, a base de programação em blocos que inspirou tudo.
+• Scratch → Plataforma de blocos que é a base conceitual do DoGoBlock.
+• Maker Works Technology Co. Ltd → Criou o mBlock, baseado no Scratch, para Arduino e robótica.
+• mBlock → Adicionou recursos de Arduino e eletrônica ao conceito do Scratch.
+• DoGo Maker → Responsável pelo DoGoBlock e adaptação da plataforma.
+• Instituto EducarBr → Participou da parte educacional e disseminação da ferramenta.`,
+  tip:"O DoGoBlock é uma evolução do Scratch! Por isso os menus e blocos são tão parecidos, mas com muito mais recursos de robótica e eletrônica."
+},
 
-            const questaoItem = questoes[indexQuestaoAtual];
-            const botoes = document.querySelectorAll(".option-button");
-            const feedback = document.getElementById("quizFeedback");
+// ── PARTE 2: INTERFACE VISUAL ─────────────────────────
+{
+  title:"Atores (Sprites)", subtitle:"Os personagens do projeto", color:"#8B5CF6", image:"modulo8.png",
+  what:"A área de Atores fica no canto inferior esquerdo. Um ator é qualquer objeto que pode se mover, falar, tocar sons, trocar de traje e interagir com outros objetos.",
+  how:`Exemplos de atores:
+• Panda, Robô, Carro, Bola, Personagem de jogo
 
-            // Desativa todos os botões após a escolha
-            botoes.forEach(b => b.disabled = true);
+Botões de novo ator:
+• 🖌️ Desenhar novo ator
+• 📂 Importar ator do computador
+• 📷 Tirar foto para criar ator
 
-            if (indexSelecionado === questaoItem.correta) {
-                totalAcertos++;
-                botaoClicado.classList.add("correct");
-                feedback.className = "feedback-box";
-                feedback.style.backgroundColor = "#d4edda";
-                feedback.style.color = "#155724";
-                feedback.innerHTML = `<img src="avatar_acertou.png" style="max-height:60px; border-radius:50%;" onerror="this.style.display='none'"> <span>👏 Parabéns! Você acertou.</span>`;
-            } else {
-                botaoClicado.classList.add("wrong");
-                // Mostrar qual era a correta para ajudar o aprendizado do aluno
-                botoes[questaoItem.correta].classList.add("correct");
-                
-                feedback.className = "feedback-box";
-                feedback.style.backgroundColor = "#f8d7da";
-                feedback.style.color = "#721c24";
-                feedback.innerHTML = `<img src="avatar_errou.png" style="max-height:60px; border-radius:50%;" onerror="this.style.display='none'"> <span>😢 Errou, mais cuidado na próxima.</span>`;
-            }
+Cada ator possui independentemente:
+• Seus próprios blocos de código
+• Seus próprios trajes (aparências)
+• Seus próprios sons`,
+  tip:"Cada ator é independente! Você pode dar movimentos, sons e aparências completamente diferentes para cada personagem."
+},
+{
+  title:"Cenários", subtitle:"O fundo do projeto", color:"#EC4899", image:"modulo9.png",
+  what:"Logo abaixo do palco existe a área Palco/Cenário. O cenário é o fundo do projeto — floresta, cidade, sala de aula, espaço e muito mais.",
+  how:`Um projeto pode ter vários cenários.
+Você pode trocar o cenário usando blocos de programação.
 
-            feedback.classList.remove("hidden");
+Botões de novo cenário:
+• 🖌️ Desenhar cenário
+• 📂 Importar cenário do computador
+• 📷 Tirar foto para cenário
 
-            // Espera 2.5 segundos para passar automaticamente para a próxima aba
-            setTimeout(() => {
-                digitando = false;
-                indexQuestaoAtual++;
-                
-                if (indexQuestaoAtual < questoes.length) {
-                    renderizarQuestao();
-                } else {
-                    // Chegou ao fim, vai para tela de liberação do professor
-                    alternarTelas("teacherScreen");
-                }
-            }, 2500);
-        }
+Exemplo de uso em jogos:
+• Fase 1 → Cenário de floresta
+• Fase 2 → Cenário de cidade
+• Fase 3 → Cenário de espaço`,
+  tip:"Use a troca de cenários para criar fases no seu jogo! Combine com blocos de Aparência para uma experiência incrível."
+},
+{
+  title:"Trajes", subtitle:"A aparência dos atores", color:"#F97316", image:"modulo10.png",
+  what:"A aba Traje controla a aparência do ator. O Panda possui dois trajes: Panda-a e Panda-b. Quando alternamos entre eles rapidamente, criamos animação!",
+  how:`Exemplo de animação com trajes:
+• Traje A → pé esquerdo levantado
+• Traje B → pé direito levantado
+• A → B → A → B = panda andando!
 
-        // LIBERAÇÃO POR SENHA DO PROFESSOR
-        function validarSenhaProfessor() {
-            const inputSenha = document.getElementById("senhaProfessor");
-            if (inputSenha.value === "2026") {
-                exibirResultadoFinal();
-            } else {
-                alert("Senha incorreta! Chame o monitor ou professor.");
-                inputSenha.value = "";
-            }
-        }
+Como criar mais trajes:
+• 🖌️ Desenhar novo traje
+• 📂 Importar traje do computador
+• Duplicar um traje existente e editar
 
-        // RESULTADO FINAL (APROVADO / REPROVADO)
-        function exibirResultadoFinal() {
-            alternarTelas("resultScreen");
-            
-            const aproveitamentoPct = Math.round((totalAcertos / questoes.length) * 100);
-            const statusTitulo = document.getElementById("resultadoStatus");
-            const avatarFinal = document.getElementById("resultadoAvatar");
-            const mensagemFinal = document.getElementById("resultadoMensagem");
-            const barraFinal = document.getElementById("resultadoPorcentagemBarra");
-            const btnCertificado = document.getElementById("btnCertificado");
+Use o bloco "próximo traje" dentro de um loop para animar!`,
+  tip:"Quanto mais trajes você criar, mais fluida fica a animação! Para uma boa caminhada, de 4 a 6 trajes já fazem maravilhas."
+},
+{
+  title:"Ferramentas de Edição", subtitle:"Desenhando trajes e cenários", color:"#FBBF24", image:"modulo11.png",
+  what:"Na aba Traje existe uma barra de ferramentas completa para desenhar e editar as imagens dos atores e cenários.",
+  how:`Ferramentas disponíveis:
+• Seleção → seleciona partes do desenho para mover ou editar
+• Linha → desenha linhas retas
+• Retângulo → quadrados e retângulos
+• Elipse → círculos e ovais
+• Texto → escreve textos dentro do desenho
+• Preenchimento → pinta áreas fechadas com uma cor
+• Borracha → apaga partes do desenho
+• Carimbo → duplica elementos do desenho
 
-            // Define se passou ou reprovou com base em acertar 16 ou mais questões
-            if (totalAcertos >= 16) {
-                statusTitulo.innerText = "Parabéns, curso concluído!";
-                statusTitulo.style.color = "var(--success-color)";
-                avatarFinal.src = "avatar_aprovado.png";
-                mensagemFinal.innerHTML = `Excelente, <b>${nomeAluno}</b>! Você passou!<br>Você acertou um total de <b>${totalAcertos} de 30 questões</b>.`;
-                
-                // Exibe o botão de certificado somente se o aluno for aprovado
-                btnCertificado.classList.remove("hidden");
-            } else {
-                statusTitulo.innerText = "Infelizmente você reprovou!";
-                statusTitulo.style.color = "var(--danger-color)";
-                avatarFinal.src = "avatar_reprovado.png";
-                mensagemFinal.innerHTML = `Não desanime, <b>${nomeAluno}</b>. Estude mais um pouco e tente de novo.<br>Você acertou apenas <b>${totalAcertos} de 30 questões</b>.`;
-                
-                // Garante que o botão fique invisível caso repita e caia a nota
-                btnCertificado.classList.add("hidden");
-            }
+Existem dois modos de edição:
+→ Modo Vetorial e Modo Bitmap (próximos módulos!)`,
+  tip:"O preenchimento é ótimo para colorir rapidamente áreas grandes sem precisar pintar tudo manualmente com a borracha ou lápis."
+},
+{
+  title:"Modo Vetorial", subtitle:"Formas matemáticas precisas", color:"#3B82F6", image:"modulo12.png",
+  what:"No modo Vetorial, o desenho é formado por linhas, curvas e formas matemáticas. Você pode ampliar infinitamente sem perder qualidade!",
+  how:`Vantagens do Vetorial:
+✅ Pode ampliar infinitamente sem perder qualidade
+✅ Excelente para logos e marcas visuais
+✅ Excelente para projetos CNC e plotter
+✅ Excelente para lineart e ilustrações
 
-            // Animação da barra final
-            setTimeout(() => {
-                barraFinal.style.width = aproveitamentoPct + "%";
-                barraFinal.innerText = aproveitamentoPct + "%";
-                if (aproveitamentoPct < 53) {
-                    barraFinal.style.backgroundColor = "var(--danger-color)";
-                } else {
-                    barraFinal.style.backgroundColor = "var(--success-color)";
-                }
-            }, 200);
-        }
+Ferramentas vetoriais incluem:
+• Pontos de ancoragem para criar curvas
+• Controle preciso de formas geométricas
+• Edição de caminhos (paths)`,
+  tip:"Se você vai usar o DoGoBlock para controlar uma máquina CNC ou plotter, sempre use o modo Vetorial nos seus desenhos!"
+},
+{
+  title:"Modo Bitmap", subtitle:"Pixels e fotografias", color:"#14B8A6", image:"modulo13.png",
+  what:"No modo Bitmap, o desenho é formado por pixels — como uma fotografia. É melhor para imagens complexas, fotos e pinturas detalhadas.",
+  how:`Vantagens do Bitmap:
+✅ Melhor para fotografias
+✅ Melhor para pinturas e texturas
+✅ Melhor para imagens muito complexas
 
-        // DISPARADOR DE PDF DO CERTIFICADO
-        function imprimirCertificado() {
-            if(nomeAluno !== "") {
-                window.print();
-            } else {
-                alert("Erro ao resgatar nome do aluno para o certificado.");
-            }
-        }
+Desvantagens:
+❌ Ao ampliar muito, perde qualidade (fica serrilhado)
 
-        // REINICIALIZAÇÕES
-        function reiniciarCursoTodo() {
-            nomeAluno = "";
-            indexModuloAtual = 0;
-            indexQuestaoAtual = 0;
-            totalAcertos = 0;
-            document.getElementById("nomeAluno").value = "";
-            document.getElementById("senhaProfessor").value = "";
-            document.getElementById("mensagemBoasVindas").innerText = "";
-            document.getElementById("mensagemBoasVindas").classList.add("hidden");
-            document.getElementById("avatarIntroArea").classList.add("hidden");
-            document.getElementById("btnIniciar").classList.add("hidden");
-            document.getElementById("nameForm").classList.remove("hidden");
-            document.getElementById("btnCertificado").classList.add("hidden");
-            alternarTelas("introScreen");
-        }
+Conversões:
+• 🔄 Vetorial → Bitmap: você perde a edição vetorial
+• 🔄 Bitmap → Vetorial: funciona bem com lineart e preto e branco. Funciona mal com fotos complexas.`,
+  tip:"Use Bitmap para criar fundos de cenários com textura e detalhes. Para personagens e objetos de jogo, prefira Vetorial!"
+},
+{
+  title:"Sons", subtitle:"Áudios e efeitos sonoros", color:"#8B5CF6", image:"modulo14.png",
+  what:"Na aba Sons você gerencia todos os áudios do ator: nome do som, forma de onda (gráfico do áudio) e botões de controle.",
+  how:`A forma de onda mostra:
+• Picos grandes 🔊 = som alto
+• Picos pequenos 🔉 = som baixo
 
-        function reiniciarApenasQuiz() {
-            indexQuestaoAtual = 0;
-            totalAcertos = 0;
-            document.getElementById("senhaProfessor").value = "";
-            document.getElementById("btnCertificado").classList.add("hidden");
-            alternarTelas("quizScreen");
-            renderizarQuestao();
-        }
-    </script>
+Botões:
+• ▶️ Reproduzir  • ⏹️ Parar  • 🔴 Gravar nova voz
+
+Editar permite: desfazer, refazer, cortar, copiar, colar, apagar, selecionar tudo, inverter.
+
+Efeitos de áudio disponíveis:
+• Fade in (aparecer gradualmente)
+• Fade out (desaparecer gradualmente)
+• Com maior intensidade, suavizar, silêncio, inverter`,
+  tip:"Grave sua própria voz para narrar o projeto! Fica muito mais pessoal e divertido. Clique no botão 🔴 para começar a gravar."
+},
+{
+  title:"Palco", subtitle:"Onde o projeto acontece", color:"#EC4899", image:"modulo15.png",
+  what:"A área grande da esquerda é o Palco. Tudo que acontece no projeto é mostrado ali — atores, animações, jogos e interações.",
+  how:`No palco você vê:
+• 🐼 Os atores sendo exibidos e animados
+• 🏞️ O cenário de fundo ativo
+• ✍️ Desenhos da caneta (se estiver usando)
+
+Controles do palco:
+• 🚩 Bandeira verde → inicia o programa
+• 🛑 Botão vermelho → para o programa
+
+Coordenadas do palco:
+• Centro: X=0, Y=0
+• X vai de -240 a +240 (esquerda / direita)
+• Y vai de -180 a +180 (baixo / cima)`,
+  tip:"O palco usa coordenadas como um gráfico matemático! Entender X e Y ajuda muito a posicionar os atores com precisão."
+},
+
+// ── PARTE 3: ÁREA DE CÓDIGOS ──────────────────────────
+{
+  title:"Área de Códigos", subtitle:"O coração do DoGoBlock", color:"#3B82F6", image:"modulo16.png",
+  what:"A área Códigos é o coração do DoGoBlock. É nela que você monta os blocos para criar animações, jogos, robôs e projetos com Arduino.",
+  how:`Ferramentas da área de código:
+• 📋 Duplicar: cria uma cópia do bloco ou conjunto de blocos — economiza muito tempo!
+• 🗑️ Apagar: remove o bloco ou conjunto selecionado.
+• 🔍 Aumentar: aumenta o tamanho visual dos blocos (ótimo para apresentações e telas pequenas).
+• 🔎 Reduzir: diminui o tamanho para ver mais código na tela.
+• 🔄 Zoom: controla o nível de aproximação (não altera o programa, só a visualização).`,
+  tip:"Use Duplicar para copiar um conjunto de blocos inteiro! Muito útil quando quer criar algo parecido com o que já fez."
+},
+{
+  title:"Movimentos", subtitle:"Movimentando os atores", color:"#14B8A6", image:"modulo17.png",
+  what:"Os blocos de Movimento são responsáveis por movimentar os atores no palco — mudar posição, direção e velocidade.",
+  how:`Exemplos de blocos:
+• Mover 10 passos
+• Girar 15° (horário ou anti-horário)
+• Ir para posição X, Y
+• Deslizar até posição em X segundos
+• Apontar para direção / apontar para o mouse
+• Se bater no limite, voltar
+
+Uso prático:
+• Personagens andando pelo cenário
+• Carros se movendo na pista
+• Bolas quicando nas paredes`,
+  tip:"Combine 'Mover 10 passos' com 'Se bater no limite, voltar' dentro de um loop 'Sempre' para criar um ator que se move sozinho!"
+},
+{
+  title:"Aparência", subtitle:"Visual dos atores e cenários", color:"#8B5CF6", image:"modulo18.png",
+  what:"Os blocos de Aparência controlam como os atores e cenários aparecem visualmente para o usuário.",
+  how:`Exemplos de blocos:
+• Dizer [mensagem] durante X segundos → balão de fala
+• Pensar [mensagem] → balão de pensamento
+• Trocar traje para [nome]
+• Próximo traje (para animações)
+• Trocar cenário para [nome]
+• Mostrar / Esconder o ator
+• Alterar tamanho por / para X%
+• Alterar efeito de cor, fantasma, brilho...`,
+  tip:"Use 'Dizer' e 'Pensar' para criar diálogos entre personagens. Combine com o bloco 'Esperar' para sincronizar as falas como numa conversa!"
+},
+{
+  title:"Som", subtitle:"Músicas e efeitos sonoros", color:"#EC4899", image:"modulo19.png",
+  what:"Os blocos de Som controlam todos os áudios do projeto — tocar, parar, ajustar volume e ritmo.",
+  how:`Exemplos de blocos:
+• Tocar som [nome]
+• Tocar som [nome] até terminar
+• Parar todos os sons
+• Alterar volume em X%
+• Definir volume para X%
+• Alterar ritmo em X BPM
+• Definir ritmo para X BPM
+
+Uso prático:
+• Músicas de fundo para o jogo
+• Efeitos sonoros de acerto e erro
+• Narração de histórias animadas`,
+  tip:"Use 'Tocar som até terminar' quando quiser que uma ação aconteça só depois que o áudio acabar. Perfeito para narrações!"
+},
+{
+  title:"Caneta", subtitle:"Desenhando no palco com código", color:"#22C55E", image:"modulo20.png",
+  what:"Os blocos de Caneta permitem que o ator deixe um rastro colorido enquanto se move — como um lápis! Muito importante para CNC e plotter.",
+  how:`Exemplos de blocos:
+• Baixar caneta → ativa o rastro de desenho
+• Levantar caneta → desativa o rastro
+• Apagar tudo → limpa todos os rastros do palco
+• Alterar cor da caneta para [cor]
+• Alterar espessura da caneta por/para X
+• Carimbar → imprime o traje do ator como imagem no palco
+
+Uso prático:
+• Desenhos automáticos e geométricos
+• Simulações de plotter e máquina CNC`,
+  tip:"Combine Caneta com loops e Movimento para criar formas geométricas automáticas — espirais, estrelas, polígonos. Arte feita com código!"
+},
+{
+  title:"Dados & Blocos", subtitle:"Variáveis, listas e funções", color:"#F97316", image:"modulo21.png",
+  what:"A aba Dados & Blocos permite guardar informações (variáveis e listas) e criar seus próprios comandos personalizados.",
+  how:`📦 Variável: guarda um valor que pode mudar.
+Exemplo: Pontos = 0 → Pontos + 1 → 0, 1, 2, 3...
+Usos: pontuação, contadores, temperatura, distância.
+
+📋 Lista: guarda vários valores numa estrutura.
+Exemplo: Lista "Frutas" → Maçã, Banana, Uva, Manga.
+Usos: histórico, nomes, dados de sensores.
+
+🧩 Criar um Bloco: cria seus próprios comandos.
+Exemplo: Você cria "Desenhar Quadrado" e usa várias vezes!
+Muito útil para projetos grandes e organizados.`,
+  tip:"Sempre que perceber que está repetindo o mesmo código várias vezes, crie um Bloco personalizado! Isso organiza muito o projeto."
+},
+{
+  title:"Eventos", subtitle:"Quando as coisas acontecem", color:"#FBBF24", image:"modulo22.png",
+  what:"Os blocos de Eventos definem quando algo acontece — são o gatilho que dispara o código. Todo programa começa com um Evento!",
+  how:`Exemplos de blocos:
+• Quando clicar na bandeira verde 🚩
+• Quando a tecla [espaço] for pressionada
+• Quando este ator for clicado
+• Quando receber a mensagem [nome]
+• Difundir a mensagem [nome] → avisa outros atores
+• Quando o cenário mudar para [nome]
+• Quando o volume do som for maior que X
+
+Uso principal:
+• Iniciar o programa com a bandeira verde
+• Criar botões interativos clicáveis
+• Comunicar atores entre si via mensagens`,
+  tip:"Use 'Difundir mensagem' para fazer atores se comunicarem! Ex: quando o herói pegar a chave, difunde 'abrir porta' e a porta reage."
+},
+{
+  title:"Controle", subtitle:"Lógica e decisões do programa", color:"#3B82F6", image:"modulo23.png",
+  what:"Os blocos de Controle comandam a lógica do programa — loops (repetições), condições (decisões) e pausas.",
+  how:`Exemplos de blocos:
+• Esperar X segundos → pausa a execução
+• Repetir X vezes → executa exatamente X vezes
+• Sempre → repete para sempre (loop infinito)
+• Se [condição], então → executa apenas se verdadeiro
+• Se [condição], então / senão → decisão com alternativa
+• Esperar até que [condição] → aguarda até ser verdadeiro
+• Repetir até que [condição] → repete até ser verdadeiro
+• Parar [todos / este script / outros scripts do ator]`,
+  tip:"O 'Se / Senão' é como tomar uma decisão: SE acertou → adiciona ponto, SENÃO → perde vida. É a base de qualquer jogo!"
+},
+{
+  title:"Sensores", subtitle:"Obtendo informações do ambiente", color:"#14B8A6", image:"modulo24.png",
+  what:"Os blocos de Sensores obtêm informações do ambiente — colisões, teclado, mouse, cronômetro. No modo Arduino, aparecem sensores físicos reais.",
+  how:`Exemplos de blocos:
+• Tocando em [ator/borda]? → detecta colisão
+• Está tocando na cor [cor]?
+• Tecla [espaço] está pressionada?
+• Mouse pressionado?
+• Coordenada X / Y do mouse
+• Cronômetro (e reiniciar cronômetro)
+• Intensidade do som do microfone
+
+No modo Arduino também aparecem:
+• Ler pino digital / analógico
+• Ler sensor ultrassônico`,
+  tip:"Use 'Tocando em [borda]' combinado com 'Se/Então' para criar limites no palco — o ator para ao bater nas bordas da tela!"
+},
+{
+  title:"Operadores", subtitle:"Matemática e lógica", color:"#8B5CF6", image:"modulo25.png",
+  what:"Os blocos de Operadores fazem cálculos matemáticos e comparações lógicas — são a matemática e a lógica do programa.",
+  how:`Operadores matemáticos:
+• + (soma), − (subtração), × (multiplicação), ÷ (divisão)
+• Número aleatório entre X e Y
+• Arredondar, valor absoluto, raiz quadrada e mais
+
+Operadores de comparação:
+• < (menor que), = (igual a), > (maior que)
+
+Operadores lógicos:
+• E → as duas condições precisam ser verdadeiras
+• OU → basta uma das condições ser verdadeira
+• NÃO → inverte a condição
+
+Exemplo prático:
+Se temperatura > 30, então ligar o ventilador.`,
+  tip:"Combine Operadores com Sensores e Controle para criar lógicas poderosas! Ex: Se pontos > 10 E vidas > 0, então continuar o jogo."
+},
+{
+  title:"Robôs", subtitle:"Controlando hardware de verdade", color:"#EC4899", image:"modulo26.png",
+  what:"A aba Robôs é o que diferencia o DoGoBlock do Scratch tradicional! Aqui ficam os blocos para controlar hardware eletrônico de verdade.",
+  how:`Dependendo da placa selecionada, podem aparecer blocos para:
+• LEDs → acender, apagar, piscar
+• Servos → posicionar em ângulos precisos (0° a 180°)
+• Motores DC → controlar velocidade e direção
+• Sensores → ultrassônico, temperatura, luminosidade
+• Buzzer → tocar notas e melodias
+• LCD → exibir textos e valores na telinha
+• Bluetooth / Wi-Fi → comunicação sem fio
+
+Uso prático, criar:
+🤖 Robôs  |  🚗 Carrinhos  |  ✍️ Plotters
+🖨️ Máquinas CNC  |  🌡️ Sensores inteligentes  |  📟 Displays`,
+  tip:"Conecte um Arduino, acenda um LED com código e você nunca mais vai ver programação da mesma forma. Esta é a parte mais empolgante!"
+}
+
+]; // fim MODULES
+
+// ════════════════════════════════════════
+//  30 QUESTÕES DA AVALIAÇÃO
+// ════════════════════════════════════════
+const QUIZ = [
+  { q:"Como é chamada a área onde ficam as opções Arquivo, Editar e Conectar?",
+    opts:["Barra de ferramentas","Barra de menus","Palco","Área de atores"], correct:1 },
+  { q:"Qual opção permite salvar as alterações no arquivo atual?",
+    opts:["Salvar Projeto","Exportar Projeto","Salvar Projeto Como","Importar Projeto"], correct:0 },
+  { q:"Qual opção permite criar uma cópia do projeto com outro nome?",
+    opts:["Salvar Projeto","Salvar Projeto Como","Exportar","Reverter"], correct:1 },
+  { q:"O que significa importar uma imagem?",
+    opts:["Salvar uma imagem","Apagar uma imagem","Trazer uma imagem para dentro do projeto","Compartilhar uma imagem"], correct:2 },
+  { q:"O que significa exportar uma imagem?",
+    opts:["Abrir uma imagem","Salvar uma imagem do projeto em um arquivo","Apagar uma imagem","Copiar uma imagem"], correct:1 },
+  { q:"Para que serve a opção Reverter?",
+    opts:["Copiar um bloco","Trocar o idioma","Voltar para a última versão salva","Apagar um ator"], correct:2 },
+  { q:"O que faz a opção Anular a eliminação?",
+    opts:["Salva o projeto","Recupera algo apagado","Fecha o programa","Limpa o palco"], correct:1 },
+  { q:"O que é o palco?",
+    opts:["Área de códigos","Área de sons","Local onde o projeto é exibido","Lista de atores"], correct:2 },
+  { q:"O que acontece ao ocultar o palco?",
+    opts:["O projeto é apagado","O ator desaparece","O palco é escondido para aumentar a área de programação","O programa fecha"], correct:2 },
+  { q:"Para que serve o Modo Turbo?",
+    opts:["Programar Arduino","Executar os blocos mais rapidamente","Desenhar imagens","Tocar sons"], correct:1 },
+  { q:"Para que serve o Modo Arduino?",
+    opts:["Tocar músicas","Criar cenários","Programar e controlar placas Arduino","Alterar idiomas"], correct:2 },
+  { q:"Qual opção conecta a placa pela USB?",
+    opts:["Bluetooth","Rede","Porta Serial (COM)","LCD"], correct:2 },
+  { q:"O que faz a opção Atualizar Firmware?",
+    opts:["Troca o idioma","Atualiza o programa interno da placa","Salva o projeto","Cria um ator"], correct:1 },
+  { q:"Qual opção mostra o código gerado pelos blocos?",
+    opts:["Rede","Smart Servo","Ver Código","Idioma"], correct:2 },
+  { q:"Para que serve o menu Placas?",
+    opts:["Trocar o cenário","Alterar o som","Escolher a placa que será utilizada","Salvar projetos"], correct:2 },
+  { q:"Qual extensão adiciona recursos para telas LCD?",
+    opts:["Communication","LCD","Smart Servo","Bluetooth"], correct:1 },
+  { q:"O que faz a extensão Communication?",
+    opts:["Edita imagens","Cria cenários","Adiciona recursos de comunicação","Apaga blocos"], correct:2 },
+  { q:"O que é um ator?",
+    opts:["Um fundo","Um som","Um personagem ou objeto do projeto","Um bloco"], correct:2 },
+  { q:"O que é um cenário?",
+    opts:["Um personagem","O fundo do projeto","Um som","Um bloco"], correct:1 },
+  { q:"Para que servem os trajes?",
+    opts:["Criar sons","Criar listas","Alterar a aparência do ator","Trocar o idioma"], correct:2 },
+  { q:"Qual modo é melhor para desenhos que serão usados em CNC?",
+    opts:["Bitmap","Vetorial","Som","Controle"], correct:1 },
+  { q:"Qual modo é formado por pixels?",
+    opts:["Bitmap","Vetorial","Turbo","Arduino"], correct:0 },
+  { q:"Qual aba contém os blocos para movimentar os atores?",
+    opts:["Movimentos","Sensores","Operadores","Eventos"], correct:0 },
+  { q:"Em qual aba ficam os blocos para tocar sons?",
+    opts:["Aparência","Som","Controle","Robôs"], correct:1 },
+  { q:"Em qual aba ficam os blocos para desenhar no palco?",
+    opts:["Eventos","Sensores","Caneta","Operadores"], correct:2 },
+  { q:"O que é uma variável?",
+    opts:["Uma imagem","Um ator","Um local para armazenar um valor","Um cenário"], correct:2 },
+  { q:"O que é uma lista?",
+    opts:["Um som","Um conjunto de vários valores armazenados","Um palco","Um ator"], correct:1 },
+  { q:"Em qual aba ficam os blocos 'Quando clicar na bandeira verde'?",
+    opts:["Controle","Operadores","Eventos","Robôs"], correct:2 },
+  { q:"Em qual aba ficam os blocos 'Se' e 'Repetir'?",
+    opts:["Aparência","Sensores","Controle","Som"], correct:2 },
+  { q:"Em qual aba ficam os blocos para controlar motores, LEDs e sensores?",
+    opts:["Operadores","Aparência","Eventos","Robôs"], correct:3 }
+]; // fim QUIZ
+
+// ════════════════════════════════════════
+//  LÓGICA DO SITE
+// ════════════════════════════════════════
+const NOTA_MIN  = 16;
+const TOT_MOD   = MODULES.length;
+const TOT_ITEMS = TOT_MOD + QUIZ.length;
+
+let studentName = "";
+let currentIdx  = 0;
+let quizAnswers = [];
+let quizScore   = 0;
+let typingTimer = null;
+
+// ── Boas-vindas ───────────────────────────────────────
+function onNameInput(){
+  const v = document.getElementById('student-name').value.trim();
+  document.getElementById('btn-ok').disabled = v.length === 0;
+}
+
+function confirmName(){
+  const name = document.getElementById('student-name').value.trim();
+  if(!name) return;
+  studentName = name;
+
+  document.getElementById('student-name').disabled = true;
+  document.getElementById('btn-ok').disabled = true;
+
+  const box = document.getElementById('greeting-box');
+  box.classList.add('visible');
+
+  const msg = `Olá, ${name}! Estou muito feliz de te ver por aqui, aproveite ao máximo esse curso! Clique em Iniciar para começar.\n\nOpa, quase me esqueci — qualquer dúvida, chame um professor! Tenha uma ótima aula 😊`;
+
+  const span   = document.getElementById('typed-text');
+  const cursor = document.getElementById('typed-cursor');
+  span.innerHTML = '';
+  cursor.style.display = 'inline-block';
+  if(typingTimer) clearInterval(typingTimer);
+
+  let i = 0;
+  typingTimer = setInterval(()=>{
+    if(i < msg.length){
+      if(msg[i] === '\n'){ span.innerHTML += '<br>'; }
+      else { span.innerHTML += msg[i]; }
+      i++;
+    } else {
+      clearInterval(typingTimer);
+      cursor.style.display = 'none';
+      document.getElementById('btn-start').disabled = false;
+    }
+  }, 28);
+}
+
+function startModules(){
+  document.getElementById('topbar-name').textContent = '👋 ' + studentName;
+  currentIdx   = 0;
+  quizAnswers  = new Array(QUIZ.length).fill(null);
+  quizScore    = 0;
+  buildDots();
+  renderItem();
+  showScreen('screen-module');
+}
+
+// ── Navegação ─────────────────────────────────────────
+function buildDots(){
+  const c = document.getElementById('nav-dots');
+  c.innerHTML = '';
+  for(let i = 0; i < TOT_ITEMS; i++){
+    const isQ = i >= TOT_MOD;
+    const d   = document.createElement('button');
+    d.className = 'nav-dot' + (isQ ? ' qdot' : '') + (i === 0 ? ' active' : '');
+    d.title = isQ ? `Questão ${i - TOT_MOD + 1}` : `Módulo ${i + 1}`;
+    const idx = i;
+    d.onclick = () => { currentIdx = idx; renderItem(); };
+    c.appendChild(d);
+  }
+}
+
+function updateDots(){
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    const isQ = i >= TOT_MOD;
+    d.className = 'nav-dot'
+      + (isQ ? ' qdot' : '')
+      + (i === currentIdx ? ' active' : '')
+      + (i < currentIdx  ? ' done'   : '');
+  });
+}
+
+function navigate(dir){
+  const next = currentIdx + dir;
+  if(next < 0 || next >= TOT_ITEMS) return;
+  currentIdx = next;
+  renderItem();
+}
+
+// ── Renderização ──────────────────────────────────────
+function renderItem(){
+  const isQ  = currentIdx >= TOT_MOD;
+  const num  = currentIdx + 1;
+  const pct  = Math.round(num / TOT_ITEMS * 100);
+
+  document.getElementById('progress-text').textContent = isQ
+    ? `Avaliação — Questão ${currentIdx - TOT_MOD + 1} de ${QUIZ.length}`
+    : `Módulo ${num} de ${TOT_MOD}`;
+  document.getElementById('progress-pct').textContent  = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const nextBtn = document.getElementById('btn-next');
+  document.getElementById('btn-prev').disabled = currentIdx === 0;
+
+  if(currentIdx === TOT_ITEMS - 1){
+    nextBtn.textContent = '🏁 Finalizar!';
+    nextBtn.onclick = finish;
+  } else {
+    nextBtn.textContent = 'Próximo →';
+    nextBtn.onclick = () => navigate(1);
+  }
+
+  if(isQ) renderQuiz(currentIdx - TOT_MOD);
+  else     renderModule(currentIdx);
+
+  updateDots();
+  window.scrollTo(0, 0);
+}
+
+function renderModule(idx){
+  const m    = MODULES[idx];
+  const modN = idx + 1;
+  let html   = '';
+
+  if(PARTS[modN]){
+    const p = PARTS[modN];
+    html += `<div class="part-banner" style="background:${p.color}">
+      <span>${p.icon}</span>${p.label}
+    </div>`;
+  }
+
+  const av = AVATAR_TIPS[modN];
+  if(av){
+    html += `<div class="avatar-tip">
+      <div class="avatar-tip-img">
+        <img src="${av.img}" alt="Daniel"
+          onload="this.style.display='block';this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';">
+        <span class="av-em">👨‍💻</span>
+      </div>
+      <div class="avatar-tip-text">${av.text}</div>
+    </div>`;
+  }
+
+  const imgHTML = m.image
+    ? `<img src="${m.image}" alt="${m.title}"
+         onerror="this.outerHTML='<div class=\\'img-placeholder\\'><span>🖼️</span><p>Adicione: ${m.image}</p></div>'">`
+    : `<div class="img-placeholder"><span>🖼️</span><p>Adicione: modulo${modN}.png</p></div>`;
+
+  html += `<div class="module-card">
+    <div class="module-header">
+      <div class="module-number" style="background:linear-gradient(135deg,${m.color},${m.color}99)">${modN}</div>
+      <div class="module-title-wrap">
+        <h2>${m.title}</h2>
+        <p>${m.subtitle}</p>
+      </div>
+    </div>
+    <div class="module-image-wrap">${imgHTML}</div>
+    <div class="module-info">
+      <div class="info-box info-what">
+        <div class="info-icon">🔍</div>
+        <div class="info-content"><h3>O que é isso?</h3><p>${m.what}</p></div>
+      </div>
+      <div class="info-box info-how">
+        <div class="info-icon">🛠️</div>
+        <div class="info-content"><h3>Como funciona?</h3><p>${m.how}</p></div>
+      </div>
+      <div class="info-box info-tip">
+        <div class="info-icon">💡</div>
+        <div class="info-content"><h3>Dica do professor</h3><p>${m.tip}</p></div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('module-content').innerHTML = html;
+}
+
+function renderQuiz(qIdx){
+  const q        = QUIZ[qIdx];
+  const answered = quizAnswers[qIdx] !== null;
+
+  const optsHTML = q.opts.map((opt, i) => {
+    let cls = 'quiz-option';
+    if(answered){
+      cls += ' disabled';
+      if(i === q.correct)              cls += ' correct';
+      else if(i === quizAnswers[qIdx]) cls += ' wrong';
+    }
+    return `<button class="${cls}" onclick="answerQuiz(${qIdx},${i})">${String.fromCharCode(65+i)}) ${opt}</button>`;
+  }).join('');
+
+  let fb = '';
+  if(answered){
+    const ok = quizAnswers[qIdx] === q.correct;
+    fb = `<div class="quiz-feedback show ${ok ? 'ok' : 'err'}">
+      ${ok ? '✅ Correto! Muito bem!' : `❌ Incorreto. A resposta certa era: <strong>${String.fromCharCode(65+q.correct)}) ${q.opts[q.correct]}</strong>`}
+    </div>`;
+  }
+
+  document.getElementById('module-content').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <h2>📝 Avaliação Final</h2>
+        <p>Questão ${qIdx+1} de ${QUIZ.length} — Mínimo ${NOTA_MIN} acertos para aprovação</p>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-q-num">Pergunta ${qIdx+1} / ${QUIZ.length}</div>
+        <div class="quiz-question">${q.q}</div>
+        <div class="quiz-options">${optsHTML}</div>
+        ${fb}
+      </div>
+    </div>`;
+}
+
+function answerQuiz(qIdx, chosen){
+  if(quizAnswers[qIdx] !== null) return;
+  quizAnswers[qIdx] = chosen;
+  if(chosen === QUIZ[qIdx].correct) quizScore++;
+  renderQuiz(qIdx);
+}
+
+// ── Finalizar ─────────────────────────────────────────
+function finish(){
+  const pct = Math.round(quizScore / QUIZ.length * 100);
+  if(quizScore >= NOTA_MIN){
+    document.getElementById('approved-name').textContent = studentName;
+    document.getElementById('approved-score').innerHTML  =
+      `🏆 Você acertou <strong>${quizScore} de ${QUIZ.length}</strong> questões (${pct}%) — <strong>Aprovado!</strong> ✅`;
+    showEl('screen-approved');
+  } else {
+    document.getElementById('failed-name').textContent = studentName;
+    document.getElementById('failed-score').innerHTML  =
+      `📊 Você acertou <strong>${quizScore} de ${QUIZ.length}</strong> questões (${pct}%) — Mínimo: ${NOTA_MIN} ❌`;
+    showEl('screen-failed');
+  }
+}
+
+// ── Certificado ───────────────────────────────────────
+function showCertificate(){
+  document.getElementById('cert-student-name').textContent = studentName;
+  document.getElementById('cert-score-badge').innerHTML =
+    `🏆 Pontuação: <strong>${quizScore} de ${QUIZ.length}</strong> questões`;
+  const now  = new Date();
+  const dia  = String(now.getDate()).padStart(2,'0');
+  const mes  = String(now.getMonth()+1).padStart(2,'0');
+  const ano  = now.getFullYear();
+  document.getElementById('cert-date').textContent = `📅 ${dia}/${mes}/${ano}`;
+  showEl('screen-cert');
+}
+
+// ── Utilitários ───────────────────────────────────────
+function retryQuiz(){
+  quizAnswers = new Array(QUIZ.length).fill(null);
+  quizScore   = 0;
+  currentIdx  = TOT_MOD;
+  buildDots();
+  renderItem();
+  showScreen('screen-module');
+}
+
+function restart(){
+  document.getElementById('student-name').value    = '';
+  document.getElementById('student-name').disabled = false;
+  document.getElementById('btn-ok').disabled       = true;
+  document.getElementById('btn-start').disabled    = true;
+  document.getElementById('greeting-box').classList.remove('visible');
+  document.getElementById('typed-text').innerHTML  = '';
+  document.getElementById('typed-cursor').style.display = 'inline-block';
+  if(typingTimer) clearInterval(typingTimer);
+  showScreen('screen-welcome');
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen, .finish-screen, #screen-cert')
+    .forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showEl(id){
+  document.querySelectorAll('.screen, .finish-screen, #screen-cert')
+    .forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
 </body>
 </html>
